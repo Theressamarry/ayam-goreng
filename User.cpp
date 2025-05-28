@@ -7,7 +7,7 @@ User::User(int id, string uname, string pwd, string r)
 
 bool User::login(string uname, string pwd){
     return (username == uname && password == pwd);
-}
+} // ini komen 
 
 void User::displayInfo(){
     cout << "ID: " << idUser << "\nUsername: " << username << "\nRole" << role << endl;
