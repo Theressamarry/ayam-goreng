@@ -16,3 +16,7 @@ void User::displayInfo(){
 string User::getRole(){
     return role;
 }
+
+User::~User(){
+    
+}

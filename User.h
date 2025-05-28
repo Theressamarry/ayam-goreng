@@ -13,10 +13,11 @@ protected:
 public:
     // constructor
     User(int id, string uname, string pwd, string r);
+    virtual ~User();
 
     // methode
-    bool login(string uname, string pwd);
     void displayInfo();
+    bool login(string uname, string pwd);
     string getRole();
 };
 
