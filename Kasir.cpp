@@ -1,4 +1,4 @@
-#include "kasir.h"
+#include "Kasir.h"
 #include <iostream>
 
 Kasir::Kasir(int id, string uname, string pwd, string idKaryawan)
@@ -8,6 +8,6 @@ void Kasir::kelolaPenjualan(){
     cout << "Kasir mencatat penjualan" << endl;
 }
 
-void Kasir::lihatstok(){
+void Kasir::lihatStok(){
     cout << "Kasir melihat stok" << endl;
 }
