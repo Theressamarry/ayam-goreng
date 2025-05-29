@@ -2,6 +2,8 @@
 #include "BahanBaku.h"
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -58,4 +60,12 @@ void Admin::manajemenStok(){
 
     } while (choice != 0);
     cout << "Admin mengelola stok" << endl;
+}
+
+void saveBahanBakuToFile(){
+    ofstream file("bahan_baku.txt");
+    for(BahanBaku &bahan: daftarBahanBaku){
+        file<< bahan.getNamaBahan()<< "," << bahan.getStok()<< "\n";
+    }
+    file.close();
 }
