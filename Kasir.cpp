@@ -2,7 +2,7 @@
 #include <iostream>
 
 Kasir::Kasir(int id, string uname, string pwd, string idKaryawan)
-    : User(id, uname, pwd, "kasir"), idKaryawan(idKaryawan){}
+    : User(id, uname, pwd, "Kasir"), idKaryawan(idKaryawan){}
 
 void Kasir::kelolaPenjualan(){
     cout << "Kasir mencatat penjualan" << endl;

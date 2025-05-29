@@ -16,7 +16,7 @@ public:
     virtual ~User();
 
     // methode
-    void displayInfo();
+    virtual void displayInfo();
     bool login(string uname, string pwd);
     string getRole();
 };

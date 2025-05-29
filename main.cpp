@@ -11,7 +11,7 @@ vector<User*> users; // menyimpan data user
 
 void dataUser(){
     users.push_back(new Admin(1, "admin", "admin123", "ADM01")); // idUser, uname, pwd, idAdmin
-    users.push_back(new Kasir(1, "kasir", "kasir123", "KSR01")); // idUser, uname, pwd, idKasir
+    users.push_back(new Kasir(2, "kasir", "kasir123", "KSR01")); // idUser, uname, pwd, idKasir
 }
 
 User* authenticate(string username, string password){
@@ -39,9 +39,11 @@ int main(){
         if(logInUser->getRole()=="Admin"){
             Admin* admin = dynamic_cast<Admin*>(logInUser);
             admin->manajemenUser();
+            admin->manajemenStok();
         } else if(logInUser->getRole()=="Kasir"){
             Kasir* kasir = dynamic_cast<Kasir*>(logInUser);
             kasir->kelolaPenjualan();
+            kasir->lihatStok();
         }
     } else{
         cout << "Login gagal!" << endl;

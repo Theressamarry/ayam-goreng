@@ -1,0 +1,1 @@
+1. setiap melakukan perubahan, jangan lupa untuk compile terlebih dahulu. g++ main.cpp User.cpp Admin.cpp Kasir.cpp -o ayam-goreng
