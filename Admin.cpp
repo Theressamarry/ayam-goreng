@@ -9,6 +9,7 @@
 using namespace std;
 
 vector<BahanBaku> daftarBahanBaku; // menyimpan data bahan baku
+void saveBahanBakuToFile(); // deklarasi fungsi untuk menyimpan bahan baku ke file
 
 Admin::Admin(int id, string uname, string pwd, string idAdmin)
     : User(id, uname, pwd, "Admin"), idAdmin(idAdmin){}
@@ -44,6 +45,7 @@ void Admin::manajemenStok(){
 
                 daftarBahanBaku.push_back(BahanBaku(id, nama, stok));
                 cout << "Bahan Baku berhasil ditambahkan!" << endl;
+                saveBahanBakuToFile(); // simpan ke file
                 break;
             }
             case 2:{ // lihat stok bahan baku
@@ -76,6 +78,7 @@ void Admin::manajemenStok(){
                             bahan.kurangiStok(-jumlah);
                         }
                         cout << "Stok bahan " << nama << " berhasil diupdate!" << endl;
+                        saveBahanBakuToFile(); // simpan ke file
                     }
                 }
                 break;
@@ -89,6 +92,7 @@ void Admin::manajemenStok(){
                     if(it->getNamaBahan() == nama){
                         daftarBahanBaku.erase(it);
                         cout << "Bahan Baku " << nama << " berhasil dihapus!" << endl;
+                        saveBahanBakuToFile(); // simpan ke file
                         break;
                     }
                 }
