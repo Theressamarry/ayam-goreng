@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <limits>
 
 using namespace std;
 
@@ -21,16 +22,26 @@ void Admin::manajemenStok(){
     do{
         cout<< "=== M A N A J E M E N T   S T O K ===" << endl;
         cout << "1. Tambah Bahan Baku\n 2. Lihat Stok\n 3. Update Stok\n 4. hapus Bahan\n 0. Quit" << endl;
-        cout << "Pilih menu: "; cin>>choice;
+        cout << "Pilih menu: "; 
+        cin>>choice;
+
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear buffer
 
         switch(choice){
             case 1:{ // nambah bahan baku
                 string nama;
                 int id, stok;
 
-                cout<< "ID Bahan: "; cin >> id;
-                cout<< "Nama Bahan: "; cin >> nama;
-                cout<< "Stok: "; cin >> stok;
+                cout<< "ID Bahan: "; 
+                cin >> id;
+                cin.ignore(); // clear buffer
+
+                cout<< "Nama Bahan: "; 
+                getline(cin, nama);
+
+                cout<< "Stok: "; 
+                cin >> stok;
+
                 daftarBahanBaku.push_back(BahanBaku(id, nama, stok));
                 cout << "Bahan Baku berhasil ditambahkan!" << endl;
                 break;
