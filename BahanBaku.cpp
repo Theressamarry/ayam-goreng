@@ -19,8 +19,9 @@ void BahanBaku::tambahStok(int jumlah){
 void BahanBaku::kurangiStok(int jumlah){
     if (jumlah <= stok) {
         stok -= jumlah;
+        cout << "Stok dikurangi sebanyak " << jumlah << ". Stok sekarang: " << stok << endl;
     } else {
-        cout << "Stok tidak cukup!" << jumlah << endl;
+        cout << "Stok tidak cukup! Stok tersedia: " << stok << ", diminta: " << jumlah << endl;
     }
 }
 

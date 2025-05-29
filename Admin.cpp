@@ -47,8 +47,13 @@ void Admin::manajemenStok(){
                 break;
             }
             case 2:{ // lihat stok bahan baku
-                for (BahanBaku &bahan : daftarBahanBaku) {
-                    bahan.displayInfo();
+                if(daftarBahanBaku.empty()){
+                    cout << "Tidak ada bahan baku tersedia." << endl;
+                } else {
+                    cout << "\n=== Daftar Bahan Baku ===" << endl;
+                    for (BahanBaku &bahan : daftarBahanBaku) {
+                        bahan.displayInfo();
+                    }
                 }
                 break;
             }
@@ -56,13 +61,35 @@ void Admin::manajemenStok(){
                 string nama;
                 int jumlah;
 
-                cout<< "Nama Bahan: "; cin >> nama;
-                cout<< "Jumlah: "; cin >> jumlah;
+                cout<< "Nama Bahan: "; 
+                cin >> nama;
+                cin.ignore(); // clear buffer
+
+                cout<< "Jumlah: "; 
+                cin >> jumlah;
+
                 for(BahanBaku &bahan: daftarBahanBaku){
                     if(bahan.getNamaBahan()== nama){
-                        if(jumlah>0) bahan.tambahStok(jumlah);
-                        else bahan.kurangiStok(-jumlah);
+                        if(jumlah> 0) {
+                            bahan.tambahStok(jumlah);
+                        } else {
+                            bahan.kurangiStok(-jumlah);
+                        }
                         cout << "Stok bahan " << nama << " berhasil diupdate!" << endl;
+                    }
+                }
+                break;
+            }
+            case 4:{ // hapus bahan baku
+                string nama;
+                cout << "Nama Bahan yang ingin dihapus: "; 
+                cin >> nama;
+
+                for(auto it = daftarBahanBaku.begin(); it != daftarBahanBaku.end(); ++it){
+                    if(it->getNamaBahan() == nama){
+                        daftarBahanBaku.erase(it);
+                        cout << "Bahan Baku " << nama << " berhasil dihapus!" << endl;
+                        break;
                     }
                 }
                 break;
@@ -70,7 +97,6 @@ void Admin::manajemenStok(){
         }   
 
     } while (choice != 0);
-    cout << "Admin mengelola stok" << endl;
 }
 
 void saveBahanBakuToFile(){
