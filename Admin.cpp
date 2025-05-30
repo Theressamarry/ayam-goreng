@@ -21,7 +21,7 @@ void Admin::manajemenUser(){
 void Admin::manajemenStok(){
     int choice;
     do{
-        cout<< "=== M A N A J E M E N T   S T O K ===" << endl;
+        cout<< "\n=== M A N A J E M E N T   S T O K ===" << endl;
         cout << "1. Tambah Bahan Baku\n 2. Lihat Stok\n 3. Update Stok\n 4. hapus Bahan\n 0. Quit" << endl;
         cout << "Pilih menu: "; 
         cin>>choice;

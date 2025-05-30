@@ -15,7 +15,7 @@ void Kasir::kelolaPenjualan(){
     string tgl, nama;
     double harga;
 
-    cout << "=== C A T A T  P E N J U A L A N ===" << endl;
+    cout << "\n=== C A T A T  P E N J U A L A N ===" << endl;
     cout << "ID Penjualan: "; cin >> id;
     cout << "Tanggal (DD-MM-YYYY): "; cin >> tgl;
     cout << "Nama Produk: "; cin >> nama;
