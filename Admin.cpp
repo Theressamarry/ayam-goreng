@@ -100,7 +100,7 @@ void Admin::manajemenStok(){
             }
             case 5: {
                 string keyword;
-                cout << "Cari bahan: ";
+                cout << "Cari produk: ";
                 cin >> keyword;
                 for (BahanBaku &bahan : daftarBahanBaku) {
                     if (bahan.getNamaBahan().find(keyword) != string::npos) {

@@ -1,11 +1,19 @@
 #include "Kasir.h"
 #include "ProdukTerjual.h"
+#include "BahanBaku.h"
+#include "User.h"
+#include "Admin.h"
 #include <iostream>
 #include <vector>
+#include <string>
+#include <fstream>
+
 
 using namespace std;
 
 vector<ProdukTerjual> daftarPenjualan; // menyimpan data penjualan
+vector<BahanBaku> daftarBahanBaku; // menyimpan data bahan baku
+void saveBahanBakuToFile(); // deklarasi fungsi untuk menyimpan bahan baku ke file
 
 Kasir::Kasir(int id, string uname, string pwd, string idKaryawan)
     : User(id, uname, pwd, "Kasir"), idKaryawan(idKaryawan){}
@@ -26,5 +34,32 @@ void Kasir::kelolaPenjualan(){
 }
 
 void Kasir::lihatStok(){
-    cout << "Kasir melihat stok" << endl;
+    int choice;
+    cout << "\n1. Lihat Semua Stok\n2. Cari Produk\nPilih: ";
+    cin >> choice;
+
+    if (choice == 1){
+        for (BahanBaku &b: daftarBahanBaku) {
+            b.displayInfo();
+        }
+    } else if (choice == 2) {
+        string keyword;
+        cout << "Nama produk: ";
+        cin >> keyword;
+        for (BahanBaku &b: daftarBahanBaku) {
+            if (b.getNamaBahan().find(keyword) != string::npos) {
+                b.displayInfo();
+            }
+        }
+    } else {
+        cout << "Pilihan tidak valid." << endl;
+    }
+}
+
+void saveBahanBakuToFile(){
+    ofstream file("bahan_baku.txt");
+    for(BahanBaku &bahan: daftarBahanBaku){
+        file<< bahan.getNamaBahan()<< "," << bahan.getStok()<< "\n";
+    }
+    file.close();
 }
