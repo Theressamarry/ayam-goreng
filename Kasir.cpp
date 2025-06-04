@@ -3,6 +3,7 @@
 #include "BahanBaku.h"
 #include "User.h"
 #include "Admin.h"
+#include "GlobalData.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -11,9 +12,8 @@
 
 using namespace std;
 
-vector<ProdukTerjual> daftarPenjualan; // menyimpan data penjualan
-vector<BahanBaku> daftarBahanBaku; // menyimpan data bahan baku
-void saveBahanBakuToFile(); // deklarasi fungsi untuk menyimpan bahan baku ke file
+// vector<ProdukTerjual> daftarPenjualan; // menyimpan data penjualan
+// vector<BahanBaku> daftarBahanBaku; // menyimpan data bahan baku
 
 Kasir::Kasir(int id, string uname, string pwd, string idKaryawan)
     : User(id, uname, pwd, "Kasir"), idKaryawan(idKaryawan){}
@@ -54,12 +54,4 @@ void Kasir::lihatStok(){
     } else {
         cout << "Pilihan tidak valid." << endl;
     }
-}
-
-void saveBahanBakuToFile(){
-    ofstream file("bahan_baku.txt");
-    for(BahanBaku &bahan: daftarBahanBaku){
-        file<< bahan.getNamaBahan()<< "," << bahan.getStok()<< "\n";
-    }
-    file.close();
 }

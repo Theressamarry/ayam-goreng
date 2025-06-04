@@ -1,6 +1,7 @@
 #include "Admin.h"
 #include "BahanBaku.h"
 #include <iostream>
+#include "GlobalData.h"
 #include <vector>
 #include <fstream>
 #include <string>
@@ -8,7 +9,7 @@
 
 using namespace std;
 
-vector<BahanBaku> daftarBahanBaku; // menyimpan data bahan baku
+// vector<BahanBaku> daftarBahanBaku; // menyimpan data bahan baku
 void saveBahanBakuToFile(); // deklarasi fungsi untuk menyimpan bahan baku ke file
 
 Admin::Admin(int id, string uname, string pwd, string idAdmin)
