@@ -65,8 +65,15 @@ void Kasir::kelolaPenjualan(){
                         }
                     }
                 }
-                cout << "Jumlah: "; cin >> jumlah;
-                cout << "Harga per unit: "; cin >> harga;
+
+                // validasi harga per unit
+                while (true){
+                    cout << "Harga per unit: ";
+                    if (cin >> harga && harga > 0) break; // pastikan harga positif
+                    cin.clear(); // clear error flag
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
+                    cout << "Error: Harga harus angka positif!\n" << endl;
+                }
 
                 daftarPenjualan.push_back(ProdukTerjual(id, tgl, nama, jumlah, harga));
                 cout << "Penjualan berhasil dicatat!" << endl;

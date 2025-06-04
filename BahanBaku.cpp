@@ -17,11 +17,12 @@ void BahanBaku::tambahStok(int jumlah){
 }
 
 void BahanBaku::kurangiStok(int jumlah){
-    if (jumlah <= stok) {
+    try {
+        if (jumlah <= 0) throw invalid_argument("Jumlah harus lebih besar dari 0.");
+        if (stok < jumlah) throw runtime_error("Stok tidak cukup untuk mengurangi jumlah yang diminta.");
         stok -= jumlah;
-        cout << "Stok dikurangi sebanyak " << jumlah << ". Stok sekarang: " << stok << endl;
-    } else {
-        cout << "Stok tidak cukup! Stok tersedia: " << stok << ", diminta: " << jumlah << endl;
+    } catch(exception &e){
+        cerr << "Error: " << e.what() << endl;
     }
 }
 
