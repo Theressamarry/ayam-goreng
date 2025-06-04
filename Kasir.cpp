@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <limits>
+#include <ctime>
 
 using namespace std;
 
@@ -39,9 +40,16 @@ void Kasir::kelolaPenjualan(){
                     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
                     cout << "Error: ID harus angka positif!\n" << endl;
                 }
-                
-                // validasi format tanggal
-                cout << "Tanggal (DD-MM-YYYY): "; cin >> tgl;
+
+                // ambil tanggal today
+                time_t now = time(0);
+                tm *ltm = localtime(&now);
+
+                char buffer[17]; // untuk format DD-MM-YYYY
+                strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M", ltm);
+                tgl = buffer; // set tanggal ke hari ini
+
+                cout << "Tanggal: " << tgl << endl;
 
                 // validasi nama produk
                 do{
@@ -114,25 +122,3 @@ void Kasir::kelolaPenjualan(){
     
 }
 
-// void Kasir::lihatStok(){
-//     int choice;
-//     cout << "\n1. Lihat Semua Stok\n2. Cari Produk\nPilih: ";
-//     cin >> choice;
-
-//     if (choice == 1){
-//         for (BahanBaku &b: daftarBahanBaku) {
-//             b.displayInfo();
-//         }
-//     } else if (choice == 2) {
-//         string keyword;
-//         cout << "Nama produk: ";
-//         cin >> keyword;
-//         for (BahanBaku &b: daftarBahanBaku) {
-//             if (b.getNamaBahan().find(keyword) != string::npos) {
-//                 b.displayInfo();
-//             }
-//         }
-//     } else {
-//         cout << "Pilihan tidak valid." << endl;
-//     }
-// }
