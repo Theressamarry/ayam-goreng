@@ -15,6 +15,13 @@ private:
 public:
     ProdukTerjual(int id, string tgl, string nama, int jml, double hrg);
     void displayInfo();
+
+    // getter methods
+    int getidPenjualan() const { return idPenjualan; }
+    string gettanggal() const { return tanggal; }
+    string getnamaProduk() const { return namaProduk; }
+    int getjumlah() const { return jumlah; }
+    double getharga() const { return harga; }
 };
 
 #endif

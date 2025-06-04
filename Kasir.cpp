@@ -9,8 +9,12 @@
 #include <string>
 #include <limits>
 #include <ctime>
+#include <iomanip>
+#include <fstream>
 
 using namespace std;
+
+void savePenjualanToFile(); // deklarasi fungsi untuk menyimpan penjualan ke file
 
 Kasir::Kasir(int id, string uname, string pwd, string idKaryawan)
     : User(id, uname, pwd, "Kasir"), idKaryawan(idKaryawan){}
@@ -84,6 +88,7 @@ void Kasir::kelolaPenjualan(){
                 }
 
                 daftarPenjualan.push_back(ProdukTerjual(id, tgl, nama, jumlah, harga));
+                savePenjualanToFile(); // simpan ke file
                 cout << "Penjualan berhasil dicatat!" << endl;
                 break;
             }
@@ -122,3 +127,14 @@ void Kasir::kelolaPenjualan(){
     
 }
 
+void savePenjualanToFile() {
+    ofstream file("penjualan.txt");
+    for (const ProdukTerjual& p : daftarPenjualan) {
+        file << p.getidPenjualan() << ","
+             << p.gettanggal() << ","
+             << p.getnamaProduk() << ","
+             << p.getjumlah() << ","
+             << p.getharga() << "\n";
+    }
+    file.close();
+}
