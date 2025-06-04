@@ -98,6 +98,16 @@ void Admin::manajemenStok(){
                 }
                 break;
             }
+            case 5: {
+                string keyword;
+                cout << "Cari bahan: ";
+                cin >> keyword;
+                for (BahanBaku &bahan : daftarBahanBaku) {
+                    if (bahan.getNamaBahan().find(keyword) != string::npos) {
+                        bahan.displayInfo();
+                    }
+                }
+            }
         }   
 
     } while (choice != 0);
