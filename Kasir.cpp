@@ -30,9 +30,41 @@ void Kasir::kelolaPenjualan(){
                 double harga;
 
                 cout << "\n=== C A T A T  P E N J U A L A N ===" << endl;
-                cout << "ID Penjualan: "; cin >> id;
+
+                // validasi id adalah angkat postif
+                while (true){
+                    cout << "ID Penjualan: "; 
+                    if (cin >> id && id >0) break;
+                    cin.clear(); // clear error flag
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
+                    cout << "Error: ID harus angka positif!\n" << endl;
+                }
+                
+                // validasi format tanggal
                 cout << "Tanggal (DD-MM-YYYY): "; cin >> tgl;
-                cout << "Nama Produk: "; cin >> nama;
+
+                // validasi nama produk
+                do{
+                    cout << "Nama Produk: ";
+                    cin.ignore(); // clear buffer
+                    getline(cin, nama);
+                } while (nama.empty());
+
+                // validasi jumlah stok
+                for (BahanBaku &b: daftarBahanBaku){
+                    if (b.getNamaBahan()==nama){
+                        while (true){
+                            cout << "Jumlah: ";
+                            if(cin >> jumlah && jumlah > 0 && jumlah <= b.getStok()){
+                                b.kurangiStok(jumlah); // kurangi stok
+                                break; // keluar dari loop jika valid
+                            }
+                            cin.clear(); // clear error flag
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
+                            cout << "Error: Jumlah harus valid dan tidak melebihi stok yang tersedia!\n" << endl;
+                        }
+                    }
+                }
                 cout << "Jumlah: "; cin >> jumlah;
                 cout << "Harga per unit: "; cin >> harga;
 
