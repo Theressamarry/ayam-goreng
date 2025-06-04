@@ -26,28 +26,38 @@ User* authenticate(string username, string password){
 int main(){
     dataUser();
 
-    string username, password;
-    cout << "=== L O G I N ===" << endl;
-    cout << "Username: "; cin >> username;
-    cout << "password: "; cin >> password;
+    while (true){
+        string username, password;
+        cout << "=== L O G I N ===" << endl;
+        cout << "Username: "; cin >> username;
+        cout << "password: "; cin >> password;
 
-    User* logInUser = authenticate(username, password);
+        User* logInUser = authenticate(username, password);
 
-    if(logInUser != nullptr){
-        cout << "\nLogin berhasil Role: " << logInUser->getRole() << endl;
-        
-        if(logInUser->getRole()=="Admin"){
-            Admin* admin = dynamic_cast<Admin*>(logInUser);
-            admin->manajemenUser();
-            admin->manajemenStok();
-        } else if(logInUser->getRole()=="Kasir"){
-            Kasir* kasir = dynamic_cast<Kasir*>(logInUser);
-            kasir->kelolaPenjualan();
-            kasir->lihatStok();
+        if(logInUser != nullptr){
+            cout << "\nLogin berhasil Role: " << logInUser->getRole() << endl;
+            
+            if(logInUser->getRole()=="Admin"){
+                Admin* admin = dynamic_cast<Admin*>(logInUser);
+                admin->manajemenUser();
+                admin->manajemenStok();
+            } else if(logInUser->getRole()=="Kasir"){
+                Kasir* kasir = dynamic_cast<Kasir*>(logInUser);
+                kasir->kelolaPenjualan();
+                kasir->lihatStok();
+            }
+        } else{
+            cout << "Login gagal!" << endl;
         }
-    } else{
-        cout << "Login gagal!" << endl;
+
+        char choice;
+        cout << "\nKembali ke login? (y/n): ";
+        cin >> choice;
+        if (choice == 'n' || choice == 'N') {
+            break; // keluar dari loop klo user ga milih kembali login
+        }
     }
+    
 
     // clean memory
     for (User* user : users){

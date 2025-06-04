@@ -9,7 +9,6 @@
 
 using namespace std;
 
-// vector<BahanBaku> daftarBahanBaku; // menyimpan data bahan baku
 void saveBahanBakuToFile(); // deklarasi fungsi untuk menyimpan bahan baku ke file
 
 Admin::Admin(int id, string uname, string pwd, string idAdmin)
@@ -23,7 +22,7 @@ void Admin::manajemenStok(){
     int choice;
     do{
         cout<< "\n=== M A N A J E M E N T   S T O K ===" << endl;
-        cout << "1. Tambah Bahan Baku\n 2. Lihat Stok\n 3. Update Stok\n 4. hapus Bahan\n 0. Quit" << endl;
+        cout << "1. Tambah Bahan Baku\n 2. Lihat Stok\n 3. Update Stok\n 4. hapus Bahan\n 5. cari bahan\n 0. Quit" << endl;
         cout << "Pilih menu: "; 
         cin>>choice;
 

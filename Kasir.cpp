@@ -7,13 +7,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <fstream>
-
+#include <limits>
 
 using namespace std;
-
-// vector<ProdukTerjual> daftarPenjualan; // menyimpan data penjualan
-// vector<BahanBaku> daftarBahanBaku; // menyimpan data bahan baku
 
 Kasir::Kasir(int id, string uname, string pwd, string idKaryawan)
     : User(id, uname, pwd, "Kasir"), idKaryawan(idKaryawan){}
