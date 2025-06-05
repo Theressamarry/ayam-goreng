@@ -127,6 +127,8 @@ void Kasir::kelolaPenjualan(){
     
 }
 
+
+
 void savePenjualanToFile() {
     ofstream file("penjualan.txt");
     for (const ProdukTerjual& p : daftarPenjualan) {

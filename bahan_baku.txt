@@ -1,1 +1,2 @@
-ayam,3
+ayam,6
+ikan,30

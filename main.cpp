@@ -4,6 +4,7 @@
 #include "User.h"
 #include "Kasir.h"
 #include "Admin.h"
+#include "GlobalData.h" 
 
 using namespace std;
 
@@ -24,6 +25,10 @@ User* authenticate(string username, string password){
 }
 
 int main(){
+    // load data dari file
+    loadBahanBakuFromFile();
+    loadPenjualanFromFile();
+
     dataUser();
 
     while (true){

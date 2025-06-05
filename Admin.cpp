@@ -113,6 +113,7 @@ void Admin::manajemenStok(){
     } while (choice != 0);
 }
 
+
 void saveBahanBakuToFile(){
     ofstream file("bahan_baku.txt");
     for(BahanBaku &bahan: daftarBahanBaku){

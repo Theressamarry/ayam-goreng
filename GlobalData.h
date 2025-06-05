@@ -1,4 +1,3 @@
-// GlobalData.h
 #ifndef GLOBALDATA_H
 #define GLOBALDATA_H
 
@@ -6,8 +5,14 @@
 #include "BahanBaku.h"
 #include "ProdukTerjual.h"
 
-// Deklarasi variabel global (tidak menduplikat memori)
-extern std::vector<BahanBaku> daftarBahanBaku;
-extern std::vector<ProdukTerjual> daftarPenjualan;
+using namespace std;
+
+// deklarasi variabel global (tidak menduplikat memori)
+extern vector<BahanBaku> daftarBahanBaku;
+extern vector<ProdukTerjual> daftarPenjualan;
+
+// fungsi untuk memuat data dari file
+void loadBahanBakuFromFile();
+void loadPenjualanFromFile();
 
 #endif
