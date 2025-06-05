@@ -20,8 +20,9 @@ public:
     void kurangiStok(int jumlah);
 
     // getter (mengakses stok bahan baku dari data private)
-    string getNamaBahan();
-    int getStok();
+    int getidBahan() const;
+    string getnamaBahan() const;
+    int getstok() const;
 };
 
 #endif

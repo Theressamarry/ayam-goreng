@@ -1,7 +1,7 @@
 #include "Admin.h"
 #include "BahanBaku.h"
-#include <iostream>
 #include "GlobalData.h"
+#include <iostream>
 #include <vector>
 #include <fstream>
 #include <string>
@@ -32,10 +32,11 @@ void Admin::manajemenStok(){
             case 1:{ // nambah bahan baku
                 string nama;
                 int id, stok;
-
-                cout<< "ID Bahan: "; 
-                cin >> id;
-                cin.ignore(); // clear buffer
+                
+                // generate id auto
+                id = generateBahanId();
+                cout << "ID Bahan: " << id << endl;
+                // cin.ignore(); // clear buffer
 
                 cout<< "Nama Bahan: "; 
                 getline(cin, nama);
@@ -71,7 +72,7 @@ void Admin::manajemenStok(){
                 cin >> jumlah;
 
                 for(BahanBaku &bahan: daftarBahanBaku){
-                    if(bahan.getNamaBahan()== nama){
+                    if(bahan.getnamaBahan()== nama){
                         if(jumlah> 0) {
                             bahan.tambahStok(jumlah);
                         } else {
@@ -89,7 +90,7 @@ void Admin::manajemenStok(){
                 cin >> nama;
 
                 for(auto it = daftarBahanBaku.begin(); it != daftarBahanBaku.end(); ++it){
-                    if(it->getNamaBahan() == nama){
+                    if(it->getnamaBahan() == nama){
                         daftarBahanBaku.erase(it);
                         cout << "Bahan Baku " << nama << " berhasil dihapus!" << endl;
                         saveBahanBakuToFile(); // simpan ke file
@@ -103,7 +104,7 @@ void Admin::manajemenStok(){
                 cout << "Cari produk: ";
                 cin >> keyword;
                 for (BahanBaku &bahan : daftarBahanBaku) {
-                    if (bahan.getNamaBahan().find(keyword) != string::npos) {
+                    if (bahan.getnamaBahan().find(keyword) != string::npos) {
                         bahan.displayInfo();
                     }
                 }
@@ -114,10 +115,12 @@ void Admin::manajemenStok(){
 }
 
 
-void saveBahanBakuToFile(){
+void saveBahanBakuToFile() {
     ofstream file("bahan_baku.txt");
-    for(BahanBaku &bahan: daftarBahanBaku){
-        file<< bahan.getNamaBahan()<< "," << bahan.getStok()<< "\n";
+    for (const BahanBaku &bahan : daftarBahanBaku) {
+        file << bahan.getidBahan() << ","
+             << bahan.getnamaBahan() << ","
+             << bahan.getstok() << "\n";
     }
     file.close();
 }

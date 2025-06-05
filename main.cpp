@@ -28,6 +28,7 @@ int main(){
     // load data dari file
     loadBahanBakuFromFile();
     loadPenjualanFromFile();
+    loadLastIdFromFile(); 
 
     dataUser();
 

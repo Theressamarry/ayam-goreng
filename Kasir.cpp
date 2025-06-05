@@ -37,13 +37,18 @@ void Kasir::kelolaPenjualan(){
                 cout << "\n=== C A T A T  P E N J U A L A N ===" << endl;
 
                 // validasi id adalah angkat postif
-                while (true){
-                    cout << "ID Penjualan: "; 
-                    if (cin >> id && id >0) break;
-                    cin.clear(); // clear error flag
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
-                    cout << "Error: ID harus angka positif!\n" << endl;
-                }
+                // while (true){
+                //     cout << "ID Penjualan: "; 
+                //     if (cin >> id && id >0) break;
+                //     cin.clear(); // clear error flag
+                //     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
+                //     cout << "Error: ID harus angka positif!\n" << endl;
+                // }
+
+                // generate id auto
+                id = generatePenjualanId();
+                cout << "ID Penjualan: " << id << endl;
+                // cin.ignore(); // clear buffer
 
                 // ambil tanggal today
                 time_t now = time(0);
@@ -64,10 +69,10 @@ void Kasir::kelolaPenjualan(){
 
                 // validasi jumlah stok
                 for (BahanBaku &b: daftarBahanBaku){
-                    if (b.getNamaBahan()==nama){
+                    if (b.getnamaBahan()==nama){
                         while (true){
                             cout << "Jumlah: ";
-                            if(cin >> jumlah && jumlah > 0 && jumlah <= b.getStok()){
+                            if(cin >> jumlah && jumlah > 0 && jumlah <= b.getstok()){
                                 b.kurangiStok(jumlah); // kurangi stok
                                 break; // keluar dari loop jika valid
                             }
@@ -109,7 +114,7 @@ void Kasir::kelolaPenjualan(){
                 cin >> keyword;
 
                 for(BahanBaku &b: daftarBahanBaku) {
-                    if (b.getNamaBahan().find(keyword) != string::npos) {
+                    if (b.getnamaBahan().find(keyword) != string::npos) {
                         b.displayInfo();
                     }
                 }

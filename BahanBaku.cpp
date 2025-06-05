@@ -1,5 +1,6 @@
 #include "BahanBaku.h"
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -26,10 +27,14 @@ void BahanBaku::kurangiStok(int jumlah){
     }
 }
 
-string BahanBaku::getNamaBahan() {
+int BahanBaku::getidBahan() const {
+    return idBahan;
+}
+
+string BahanBaku::getnamaBahan() const{
     return namaBahan;
 }
 
-int BahanBaku::getStok() {
+int BahanBaku::getstok() const {
     return stok;
 }
