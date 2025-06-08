@@ -70,7 +70,6 @@ void Admin::manajemenStok(){
                 int jumlah;
 
                 cout<< "Nama Bahan: "; 
-                cin >> nama;
                 getline(cin, nama); // clear buffer
 
                 cout<< "Jumlah: "; 
@@ -81,11 +80,16 @@ void Admin::manajemenStok(){
                     if(bahan.getnamaBahan()== nama){
                         if(jumlah> 0) {
                             bahan.tambahStok(jumlah);
+                            cout << "Stok bahan " << nama << " berhasil ditambahkan! Stok sekarang: " << bahan.getstok() << endl;
                         } else {
-                            bahan.kurangiStok(-jumlah);
+                            if(bahan.getstok() >= -jumlah){
+                                bahan.kurangiStok(-jumlah);
+                            cout << "Stok bahan " << nama << " berhasil dikurangi! Stok sekarang: " << bahan.getstok() << endl;
+                            } else {
+                                cout << "Error: Stok tidak mencukupi!" << endl;
+                            }
                         }
-                        cout << "Stok bahan " << nama << " berhasil diupdate!" << endl;
-                        saveBahanBakuToFile(); // simpan ke file
+                        saveBahanBakuToFile();
                         found = true;
                         break;
                     }
@@ -93,6 +97,7 @@ void Admin::manajemenStok(){
                 if(!found){
                     cout << "Bahan Baku " << nama << " tidak ditemukan!" << endl;
                 }
+                break;
             }
             case 4:{ // hapus bahan baku
                 string nama;
@@ -112,6 +117,7 @@ void Admin::manajemenStok(){
                 if(!found){
                     cout << "Bahan Baku " << nama << " tidak ditemukan!" << endl;
                 }
+                break;
             }
             case 5: {
                 string keyword;
@@ -122,6 +128,7 @@ void Admin::manajemenStok(){
                         bahan.displayInfo();
                     }
                 }
+                break;
             }
         }   
 

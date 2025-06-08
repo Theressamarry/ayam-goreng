@@ -15,6 +15,7 @@
 using namespace std;
 
 void savePenjualanToFile(); // deklarasi fungsi untuk menyimpan penjualan ke file
+void saveBahanBakuToFile(); // deklarasi fungsi untuk menyimpan bahan baku ke file
 
 Kasir::Kasir(int id, string uname, string pwd, string idKaryawan)
     : User(id, uname, pwd, "Kasir"), idKaryawan(idKaryawan){}
@@ -54,10 +55,10 @@ void Kasir::kelolaPenjualan(){
                     string nama;
 
                     // nama produk
-                    cout << "Nama Produk: "; // tpi klo ketik ., bakalan keluar dari loop
+                    cout << "Nama Produk: "; // tpi klo enter, bakalan keluar dari loop
                     getline(cin, nama); // clear buffer
 
-                    if (nama == ".") break; // keluar jika user mengetik '.'
+                    if (nama.empty()) break; // keluar jika user enter
 
                     bool found = false;
                     for (auto &bahan:daftarBahanBaku){
@@ -78,7 +79,9 @@ void Kasir::kelolaPenjualan(){
                             bahan.kurangiStok(jumlah); // kurangi stok
                             daftarPenjualan.push_back(ProdukTerjual(id, tgl, nama, jumlah, bahan.getharga()));
                             totalHarga += subTotal; // tambahkan ke total harga
-
+                            
+                            savePenjualanToFile();
+                            saveBahanBakuToFile();
                             found = true; // set flag true jika produk ditemukan
                             break;
                         }

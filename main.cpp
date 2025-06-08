@@ -55,15 +55,26 @@ int main(){
             cout << "Login gagal!" << endl;
         }
 
-        char choice;
+        char choice = 'y';
+        string input;
+
         cout << "\nKembali ke login? (y/n): ";
-        cin >> choice;
-        if (choice == 'n' || choice == 'N') {
-            break; // keluar dari loop klo user ga milih kembali login
+        getline(cin, input);
+
+
+        // jika user tidak memasukkan input, default ke 'y'
+        if (input.empty() || tolower(input[0]) == 'y') {
+            // Kembali ke login (default behavior)
+        } 
+        // jika user input 'n' atau 'N', keluar dari loop
+        else if (tolower(input[0]) == 'n') {
+            break; // keluar dari loop
+        }
+        else {
+            cout << "Pilihan tidak valid, kembali ke login..." << endl;
         }
     }
     
-
     // clean memory
     for (User* user : users){
         delete user;
