@@ -1,6 +1,10 @@
 #include "GlobalData.h"
 #include "BahanBaku.h"
 #include "ProdukTerjual.h"
+#include "User.h"
+#include "Admin.h"
+#include "Kasir.h"
+#include "Pelanggan.h"
 #include <iostream>
 #include <vector>
 #include <string>

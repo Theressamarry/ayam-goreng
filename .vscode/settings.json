@@ -3,6 +3,7 @@
         "limits": "cpp",
         "iostream": "cpp",
         "stdexcept": "cpp",
-        "exception": "cpp"
+        "exception": "cpp",
+        "iomanip": "cpp"
     }
 }

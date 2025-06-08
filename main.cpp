@@ -2,83 +2,115 @@
 #include <vector>
 #include <string>
 #include "User.h"
-#include "Kasir.h"
 #include "Admin.h"
-#include "GlobalData.h" 
+#include "Kasir.h"
+#include "Pelanggan.h"
+#include "GlobalData.h"
 
 using namespace std;
 
 vector<User*> users; // menyimpan data user
 
-void dataUser(){
+void dataUser() {
     users.push_back(new Admin(1, "admin", "admin123", "ADM01")); // idUser, uname, pwd, idAdmin
-    users.push_back(new Kasir(2, "kasir", "kasir123", "KSR01")); // idUser, uname, pwd, idKasir
+    users.push_back(new Kasir(2, "kasir", "kasir123", "KSR01")); // idUser, uname, pwd, idKaryawan
 }
 
-User* authenticate(string username, string password){
-    for (User* user : users){
-        if (user->login(username, password)){
+void registrasiPelanggan() {
+    static int nextId = 3; // start dari 3 karena admin(1) dan kasir(2) sudah ada
+    string username, password, namaLengkap;
+
+    cout << "\n=== REGISTRASI PELANGGAN ===" << endl;
+    cout << "Username: ";
+    getline(cin, username);
+
+    cout << "Password: ";
+    getline(cin, password);
+
+    cout << "Nama Lengkap: ";
+    getline(cin, namaLengkap);
+
+    users.push_back(new Pelanggan(nextId++, username, password, namaLengkap));
+    cout << "Registrasi berhasil!" << endl;
+}
+
+User* authenticate(const string& username, const string& password) {
+    for (User* user : users) {
+        if (user->login(username, password)) {
             return user;
         }
     }
     return nullptr;
 }
 
-int main(){
-    // load data dari file
+int main() {
     loadBahanBakuFromFile();
     loadPenjualanFromFile();
-    loadLastIdFromFile(); 
-
+    loadLastIdFromFile();
     dataUser();
 
-    while (true){
-        string username, password;
-        cout << "=== L O G I N ===" << endl;
-        cout << "Username: "; cin >> username;
-        cout << "password: "; cin >> password;
+    bool running = true;
 
-        User* logInUser = authenticate(username, password);
+    while (running) {
+        cout << "\n=== MENU UTAMA ===" << endl;
+        cout << "1. Login" << endl;
+        cout << "2. Registrasi Pelanggan" << endl;
+        cout << "3. Keluar" << endl;
+        cout << "Pilihan: ";
 
-        if(logInUser != nullptr){
-            cout << "\nLogin berhasil Role: " << logInUser->getRole() << endl;
-            
-            if(logInUser->getRole()=="Admin"){
-                Admin* admin = dynamic_cast<Admin*>(logInUser);
-                admin->manajemenUser();
-                admin->manajemenStok();
-            } else if(logInUser->getRole()=="Kasir"){
-                Kasir* kasir = dynamic_cast<Kasir*>(logInUser);
-                kasir->kelolaPenjualan();
+        int choice;
+        cin >> choice;
+        cin.ignore(); 
+
+        if (choice == 1) {
+            string username, password;
+            cout << "\n=== L O G I N ===" << endl;
+            cout << "Username: ";
+            getline(cin, username);
+            cout << "Password: ";
+            getline(cin, password);
+
+            User* logInUser = authenticate(username, password);
+
+            if (logInUser != nullptr) {
+                cout << "\nLogin berhasil!" << endl;
+
+                if (logInUser->getRole() == "Admin") {
+                    Admin* admin = dynamic_cast<Admin*>(logInUser);
+                    admin->manajemenUser();
+                    admin->manajemenStok();
+                } else if (logInUser->getRole() == "Kasir") {
+                    Kasir* kasir = dynamic_cast<Kasir*>(logInUser);
+                    kasir->kelolaPenjualan();
+                } else if (logInUser->getRole() == "Pelanggan") {
+                    Pelanggan* pelanggan = dynamic_cast<Pelanggan*>(logInUser);
+                    pelanggan->displayInfo();
+                    pelanggan->lihatMenu();
+                }
+
+                string input;
+                cout << "\nKembali ke menu utama? (y/n): ";
+                getline(cin, input);
+
+                if (!input.empty() && tolower(input[0]) == 'n') {
+                    running = false;
+                }
+            } else {
+                cout << "Login gagal!" << endl;
             }
-        } else{
-            cout << "Login gagal!" << endl;
-        }
 
-        char choice = 'y';
-        string input;
-
-        cout << "\nKembali ke login? (y/n): ";
-        getline(cin, input);
-
-
-        // jika user tidak memasukkan input, default ke 'y'
-        if (input.empty() || tolower(input[0]) == 'y') {
-            // Kembali ke login (default behavior)
-        } 
-        // jika user input 'n' atau 'N', keluar dari loop
-        else if (tolower(input[0]) == 'n') {
-            break; // keluar dari loop
-        }
-        else {
-            cout << "Pilihan tidak valid, kembali ke login..." << endl;
+        } else if (choice == 2) {
+            registrasiPelanggan();
+        } else if (choice == 3) {
+            running = false;
+        } else {
+            cout << "Pilihan tidak valid!" << endl;
         }
     }
-    
-    // clean memory
-    for (User* user : users){
+
+    for (User* user : users) {
         delete user;
     }
 
     return 0;
-};
+}

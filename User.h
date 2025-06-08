@@ -19,6 +19,11 @@ public:
     virtual void displayInfo();
     bool login(string uname, string pwd);
     string getRole();
+
+    // getter methods
+    int getId() const { return idUser; }
+    string getUsername() const { return username; }
+    string getPassword() const { return password; }
 };
 
 #endif
