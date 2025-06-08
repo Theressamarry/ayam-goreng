@@ -94,3 +94,58 @@ void loadBahanBakuFromFile() {
     file.close();
 }
 
+void loadUsersFromFile() {
+    ifstream file("users.txt");
+    if (!file.is_open()) return;
+
+    string line;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string idStr, username, password, role, extraData;
+        
+        getline(ss, idStr, ',');
+        getline(ss, username, ',');
+        getline(ss, password, ',');
+        getline(ss, role, ',');
+        getline(ss, extraData);  // Untuk data tambahan (idAdmin/idKasir/namaLengkap)
+
+        int id = stoi(idStr);
+
+        if (role == "Admin") {
+            users.push_back(new Admin(id, username, password, extraData));
+        } 
+        else if (role == "Kasir") {
+            users.push_back(new Kasir(id, username, password, extraData));
+        }
+        else if (role == "Pelanggan") {
+            users.push_back(new Pelanggan(id, username, password, extraData));
+        }
+    }
+    file.close();
+}
+
+void saveUsersToFile() {
+    ofstream file("users.txt");
+    for (User* user : users) {
+        file << user->getId() << ","
+             << user->getUsername() << ","
+             << user->getPassword() << ","
+             << user->getRole() << ",";
+        
+        if (user->getRole() == "Admin") {
+            Admin* admin = dynamic_cast<Admin*>(user);
+            file << admin->getIdAdmin();
+        }
+        else if (user->getRole() == "Kasir") {
+            Kasir* kasir = dynamic_cast<Kasir*>(user);
+            file << kasir->getIdKaryawan();
+        }
+        else if (user->getRole() == "Pelanggan") {
+            Pelanggan* pelanggan = dynamic_cast<Pelanggan*>(user);
+            file << pelanggan->getNamaLengkap();
+        }
+        file << "\n";
+    }
+    file.close();
+}
+

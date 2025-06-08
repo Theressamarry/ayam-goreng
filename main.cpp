@@ -11,26 +11,25 @@ using namespace std;
 
 vector<User*> users; // menyimpan data user
 
-void dataUser() {
-    users.push_back(new Admin(1, "admin", "admin123", "ADM01")); // idUser, uname, pwd, idAdmin
-    users.push_back(new Kasir(2, "kasir", "kasir123", "KSR01")); // idUser, uname, pwd, idKaryawan
-}
+// void dataUser() {
+//     users.push_back(new Admin(1, "admin", "admin123", "ADM01")); // idUser, uname, pwd, idAdmin
+//     users.push_back(new Kasir(2, "kasir", "kasir123", "KSR01")); // idUser, uname, pwd, idKaryawan
+// }
 
 void registrasiPelanggan() {
     static int nextId = 3; // start dari 3 karena admin(1) dan kasir(2) sudah ada
+    if (!users.empty()) {
+        nextId = users.back()->getId() + 1; // ambil id terakhir + 1
+    }
+
     string username, password, namaLengkap;
-
     cout << "\n=== REGISTRASI PELANGGAN ===" << endl;
-    cout << "Username: ";
-    getline(cin, username);
-
-    cout << "Password: ";
-    getline(cin, password);
-
-    cout << "Nama Lengkap: ";
-    getline(cin, namaLengkap);
+    cout << "Username: "; getline(cin, username);
+    cout << "Password: "; getline(cin, password);
+    cout << "Nama Lengkap: "; getline(cin, namaLengkap);
 
     users.push_back(new Pelanggan(nextId++, username, password, namaLengkap));
+    saveUsersToFile(); // simpan data user ke file
     cout << "Registrasi berhasil!" << endl;
 }
 
@@ -47,7 +46,13 @@ int main() {
     loadBahanBakuFromFile();
     loadPenjualanFromFile();
     loadLastIdFromFile();
-    dataUser();
+    loadUsersFromFile(); 
+    
+    if (users.empty()) {
+        users.push_back(new Admin(1, "admin", "admin123", "ADM01")); // idUser, uname, pwd, idAdmin
+        users.push_back(new Kasir(2, "kasir", "kasir123", "KSR01")); // idUser, uname, pwd, idKaryawan
+        saveUsersToFile();
+    }
 
     bool running = true;
 

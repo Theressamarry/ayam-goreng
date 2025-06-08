@@ -8,6 +8,7 @@ private:
     string idKaryawan;
 public:
     Kasir(int id, string uname, string pwd, string idKaryawan);
+    string getIdKaryawan() const { return idKaryawan; }
     void kelolaPenjualan();
     void lihatStok();
 
