@@ -8,19 +8,24 @@
 
 using namespace std;
 
-// deklarasi variabel global (tidak menduplikat memori)
+// ==== DEKLARASI VARIABEL GLOBAL ====
 extern vector<BahanBaku> daftarBahanBaku;
 extern vector<ProdukTerjual> daftarPenjualan;
 extern vector<User*> users; 
 
-// fungsi untuk memuat data dari file
+// ==== DEKLARASI VARIABEL ID ====
 int generateBahanId();
 int generatePenjualanId();
 void loadLastIdFromFile();
 void saveLastIdToFile();
+
+// ==== DEKLARASI FUNGSI UNTUK LOAD DATA ====
 void loadBahanBakuFromFile();
 void loadPenjualanFromFile();
 void loadUsersFromFile();
+
+// ==== DEKLARASI FUNGSI UNTUK SAVE DATA ====
+void saveBahanBakuToFile();
 void saveUsersToFile();
 
 #endif

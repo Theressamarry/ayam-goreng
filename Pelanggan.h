@@ -4,14 +4,25 @@
 #include "User.h"
 #include <string>
 
+using namespace std;
+
+// ==== DEKLARASI PELANGGAN CLASS ====
+// class pelanggan ini merupakan turunan dari class User
 class Pelanggan : public User {
 private:
-    std::string namaLengkap;
+    string namaLengkap;
 public:
-    Pelanggan(int id, std::string uname, std::string pwd, std::string nama);
+    // ==== CONSTRUKTOR PELANGGAN ====
+    Pelanggan(int id, string uname, string pwd, string nama);
+
+    // ==== DISPLAY INFO PELANGGAN ====
     void displayInfo() override;
+
+    // ==== LIHAT MENU PRODUK ====
     void lihatMenu();
-    std::string getNamaLengkap() const;
+
+    // ==== GETTER NAMA LENGKAP PELANGGAN ====
+    string getNamaLengkap() const;
 };
 
 #endif

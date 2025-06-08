@@ -9,8 +9,10 @@
 
 using namespace std;
 
-void saveBahanBakuToFile(); // deklarasi fungsi untuk menyimpan bahan baku ke file
+// ==== DEKLARASI FUNGSI UNTUK SAVE DATA KE FILE ====
+void saveBahanBakuToFile(); // agar data bahan baku ga ilang walaupun program ditutup
 
+// CONSTRUKTOR ADMIN
 Admin::Admin(int id, string uname, string pwd, string idAdmin)
     : User(id, uname, pwd, "Admin"), idAdmin(idAdmin){}
 
@@ -18,6 +20,7 @@ void Admin::manajemenUser(){
     cout << "Admin mengelola user" << endl;
 }
 
+// ==== FITUR: MANAGE STOK BahanBaku ====
 void Admin::manajemenStok(){
     int choice;
     do{
@@ -34,10 +37,8 @@ void Admin::manajemenStok(){
                 int id, stok;
                 double harga;
                 
-                // generate id auto
-                id = generateBahanId();
+                id = generateBahanId(); // auto generate id
                 cout << "ID Bahan: " << id << endl;
-                // cin.ignore(); // clear buffer
 
                 cout<< "Nama Bahan: "; 
                 getline(cin, nama);
@@ -51,7 +52,7 @@ void Admin::manajemenStok(){
 
                 daftarBahanBaku.push_back(BahanBaku(id, nama, stok, harga));
                 cout << "Bahan Baku berhasil ditambahkan!" << endl;
-                saveBahanBakuToFile(); // simpan ke file
+                saveBahanBakuToFile(); // langsung simpan ke file
                 break;
             }
             case 2:{ // lihat stok bahan baku
@@ -60,7 +61,7 @@ void Admin::manajemenStok(){
                 } else {
                     cout << "\n=== Daftar Bahan Baku ===" << endl;
                     for (BahanBaku &bahan : daftarBahanBaku) {
-                        bahan.displayInfo();
+                        bahan.displayInfo(); // show info BahanBaku
                     }
                 }
                 break;
@@ -89,7 +90,7 @@ void Admin::manajemenStok(){
                                 cout << "Error: Stok tidak mencukupi!" << endl;
                             }
                         }
-                        saveBahanBakuToFile();
+                        saveBahanBakuToFile(); //simpan file
                         found = true;
                         break;
                     }
@@ -121,7 +122,7 @@ void Admin::manajemenStok(){
             }
             case 5: {
                 string keyword;
-                cout << "Cari produk: ";
+                cout << "Cari BahanBaku: ";
                 cin >> keyword;
                 for (BahanBaku &bahan : daftarBahanBaku) {
                     if (bahan.getnamaBahan().find(keyword) != string::npos) {

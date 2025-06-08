@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// ==== DEKLARASI BAHAN BAKU CLASS ====
 class BahanBaku{
 private:
     int idBahan;
@@ -12,19 +13,21 @@ private:
     double harga;
 
 public:
-    // constructor
+    // ==== CONSTRUKTOR BAHAN BAKU ====
     BahanBaku(int id, string nama, int stok, double harga);
 
-    // crud bahan baku
+    // ==== DISPLAY INFO PRODUK ====
     void displayInfo();
-    void tambahStok(int jumlah);
-    void kurangiStok(int jumlah);
 
-    // getter (mengakses stok bahan baku dari data private)
-    int getidBahan() const;
-    string getnamaBahan() const;
-    int getstok() const;
-    double getharga() const;
+    // ==== UPDATE STOK PRODUK ====
+    void tambahStok(int jumlah); // menambah stok bahan baku
+    void kurangiStok(int jumlah); // mengurangi stok bahan baku
+
+    // ==== GETTER BAHAN BAKU ====
+    int getidBahan() const; // ambil id bahan baku
+    string getnamaBahan() const; // ambil nama bahan baku
+    int getstok() const; // ambil stok bahan baku
+    double getharga() const; // ambil harga bahan baku
 };
 
 #endif

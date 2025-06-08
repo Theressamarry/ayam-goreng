@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// ==== DEKLARASI PRODUK TERJUAL CLASS ====
 class ProdukTerjual{
 private:
     int idPenjualan;
@@ -13,15 +14,17 @@ private:
     double harga;
 
 public:
+    // ==== CONSTRUKTOR PRODUK TERJUAL ====
     ProdukTerjual(int id, string tgl, string nama, int jml, double hrg);
 
-    // getter methods
+    // ==== GETTER PRODUK TERJUAL ====
     int getidPenjualan() const { return idPenjualan; }
     string gettanggal() const { return tanggal; }
     string getnamaProduk() const { return namaProduk; }
     int getjumlah() const { return jumlah; }
     double getharga() const { return harga; }
 
+    // ==== DISPLAY INFO PRODUK TERJUAL ====
     void displayInfo();
 
 };

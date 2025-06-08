@@ -6,15 +6,19 @@
 
 using namespace std;
 
+// ==== CONSTRUKTOR PELANGGAN ====
+// class pelanggan merupakan turunan dari class User
 Pelanggan::Pelanggan(int id, string uname, string pwd, string nama)
     : User(id, uname, pwd, "Pelanggan"), namaLengkap(nama) {}
 
+// ==== DISPLAY INFO PELANGGAN ====
 void Pelanggan::displayInfo() {
     cout << "\n=== INFO PELANGGAN ===" << endl;
     cout << "Username: " << username << endl;
     cout << "Nama Lengkap: " << namaLengkap << endl;
 }
 
+// ==== LIHAT MENU PRODUK ====
 void Pelanggan::lihatMenu() {
     cout << "\n=== DAFTAR MENU ===" << endl;
     cout << left << setw(5) << "Nama Produk" 
@@ -27,6 +31,7 @@ void Pelanggan::lihatMenu() {
     }
 }
 
+// ==== GETTER NAMA LENGKAP PELANGGAN ====
 string Pelanggan::getNamaLengkap() const {
     return namaLengkap;
 }

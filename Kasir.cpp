@@ -14,12 +14,15 @@
 
 using namespace std;
 
+// ==== DEKLARASI FUNGSI UNTUK SAVE DATA KE FILE ====
 void savePenjualanToFile(); // deklarasi fungsi untuk menyimpan penjualan ke file
 void saveBahanBakuToFile(); // deklarasi fungsi untuk menyimpan bahan baku ke file
 
+// ==== CONSTRUCTOR KASIR ====
 Kasir::Kasir(int id, string uname, string pwd, string idKaryawan)
     : User(id, uname, pwd, "Kasir"), idKaryawan(idKaryawan){}
 
+// ==== FITUR: KELOLA PENJUALAN ====
 void Kasir::kelolaPenjualan(){
     int choice;
     do{
@@ -30,7 +33,7 @@ void Kasir::kelolaPenjualan(){
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
 
         switch(choice){
-            case 1: {
+            case 1: { // catat penjualan
                 int id, jumlah;
                 string tgl, nama;
                 double harga;
@@ -94,7 +97,7 @@ void Kasir::kelolaPenjualan(){
                 cout << "Penjualan berhasil dicatat!" << endl;
                 break;
             }
-            case 2: {
+            case 2: { // lihat semua stok
                 cout << "\n=== Daftar Stok ==="<< endl;
                 if (daftarBahanBaku.empty()){
                     cout << "Tidak ada stok tersedia"<< endl;
@@ -105,13 +108,13 @@ void Kasir::kelolaPenjualan(){
                 }
                 break;
             }
-            case 3:{
+            case 3:{ // cari produk
                 string keyword;
                 cout << "Masukkan nama produk yang dicari: ";
                 cin >> keyword;
 
                 bool found = false;
-                for(BahanBaku &b: daftarBahanBaku) {
+                for(BahanBaku&b: daftarBahanBaku) {
                     if (b.getnamaBahan().find(keyword) != string::npos) {
                         b.displayInfo();
                         found = true;
@@ -122,7 +125,8 @@ void Kasir::kelolaPenjualan(){
                 }
                 break;
             }
-            case 0:{
+            case 0:{ // keluar dari menu kasir
+                savePenjualanToFile(); // simpan penjualan sebelum keluar
                 cout << "Keluar dari menu kasir." << endl;
                 break;
             }
@@ -131,7 +135,7 @@ void Kasir::kelolaPenjualan(){
     
 }
 
-
+// ==== FUNGSI UNTUK SIMPAN KE FILE ====
 void savePenjualanToFile() {
     ofstream file("penjualan.txt");
     for (const ProdukTerjual& p : daftarPenjualan) {

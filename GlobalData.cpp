@@ -13,13 +13,16 @@
 
 using namespace std;
 
-// definisi variabel global (alokasi memori terjadi di sini)
+// ==== DEKLARASI VARIABEL GLOBAL ====
+vector<User*> users; 
 vector<BahanBaku> daftarBahanBaku;
 vector<ProdukTerjual> daftarPenjualan;
 
 int lastBahanId = 0;
 int lastPenjualanId = 0;
 
+// ==== LOAD LAST ID DARI FILE ====
+// ambil id terakhir dari file buat keperluan auto increment
 void loadLastIdFromFile() {
     ifstream file("last_id.txt");
     if (file.is_open()) {
@@ -28,6 +31,8 @@ void loadLastIdFromFile() {
     } 
 }
 
+// ==== SAVE LAST ID KE FILE ====
+// simpan id terakhir ke file agar tidak hilang saat program ditutup
 void saveLastIdToFile() {
     ofstream file("last_id.txt");
     if (file.is_open()) {
@@ -36,24 +41,28 @@ void saveLastIdToFile() {
     }
 }
 
+// ==== GENERATE ID UNTUK BAHAN BAKU ====
 int generateBahanId() {
     lastBahanId++;
     saveLastIdToFile();
     return lastBahanId;
 }
 
+// ==== GENERATE ID UNTUK PENJUALAN ====
 int generatePenjualanId() {
     lastPenjualanId++;
     saveLastIdToFile();
     return lastPenjualanId;
 }
 
+// ==== LOAD DATA DARI FILE ====
 void loadPenjualanFromFile() {
     ifstream file("penjualan.txt");
     int id, jumlah;
     string tanggal, nama;
     double harga;
 
+    // format file: id,tanggal,nama,jumlah,harga
     while (getline(file, tanggal, ',') && getline(file, nama, ',') &&
            file >> id >> jumlah >> harga) {
         file.ignore();
@@ -63,6 +72,7 @@ void loadPenjualanFromFile() {
     file.close();
 }
 
+// ==== LOAD BAHAN BAKU DARI FILE ==== 
 void loadBahanBakuFromFile() {
     ifstream file("bahan_baku.txt");
     // variavel untuk menyimpan data hsil konversi
@@ -94,6 +104,7 @@ void loadBahanBakuFromFile() {
     file.close();
 }
 
+// ==== LOAD DATA USER DARI FILE ====
 void loadUsersFromFile() {
     ifstream file("users.txt");
     if (!file.is_open()) return;
@@ -111,6 +122,7 @@ void loadUsersFromFile() {
 
         int id = stoi(idStr);
 
+        // role menentukan jenis user yang akan dibuat
         if (role == "Admin") {
             users.push_back(new Admin(id, username, password, extraData));
         } 
@@ -124,6 +136,7 @@ void loadUsersFromFile() {
     file.close();
 }
 
+// ==== SAVE DATA USER KE FILE ====
 void saveUsersToFile() {
     ofstream file("users.txt");
     for (User* user : users) {
@@ -131,7 +144,8 @@ void saveUsersToFile() {
              << user->getUsername() << ","
              << user->getPassword() << ","
              << user->getRole() << ",";
-        
+
+        // simpan data tambahan sesuai role
         if (user->getRole() == "Admin") {
             Admin* admin = dynamic_cast<Admin*>(user);
             file << admin->getIdAdmin();
