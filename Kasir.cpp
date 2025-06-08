@@ -66,6 +66,12 @@ void Kasir::kelolaPenjualan(){
                     bool found = false;
                     for (auto &bahan:daftarBahanBaku){
                         if (bahan.getnamaBahan()==nama){
+                            if (bahan.getstok()==0) { // cek stok
+                                cout << "Stok produk " << nama << " habis. Silakan pilih produk lain." << endl;
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear buffer
+                                return; // keluar dari loop
+                            }
+
                             // validasi jumlah stok
                             cout << "Jumlah: ";
                             while (!(cin >> jumlah) || jumlah <= 0 || jumlah > bahan.getstok()) {
@@ -73,7 +79,7 @@ void Kasir::kelolaPenjualan(){
                             cin.clear();
                             cin.ignore(numeric_limits<streamsize>::max(), '\n');
                             }
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
                             double subTotal = jumlah * bahan.getharga();
                             cout << "Subtotal: Rp" << jumlah << " x Rp" << bahan.getharga() << " = Rp" << subTotal << endl;
@@ -94,6 +100,7 @@ void Kasir::kelolaPenjualan(){
                 }
                 cout << "Total Belanja: Rp" << totalHarga << endl;
                 savePenjualanToFile(); // simpan ke file
+                saveBahanBakuToFile(); // simpan stok ke file
                 cout << "Penjualan berhasil dicatat!" << endl;
                 break;
             }
@@ -127,6 +134,7 @@ void Kasir::kelolaPenjualan(){
             }
             case 0:{ // keluar dari menu kasir
                 savePenjualanToFile(); // simpan penjualan sebelum keluar
+                saveBahanBakuToFile(); // simpan stok sebelum keluar
                 cout << "Keluar dari menu kasir." << endl;
                 break;
             }

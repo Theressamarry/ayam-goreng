@@ -14,7 +14,6 @@
 using namespace std;
 
 // ==== DEKLARASI VARIABEL GLOBAL ====
-vector<User*> users; 
 vector<BahanBaku> daftarBahanBaku;
 vector<ProdukTerjual> daftarPenjualan;
 
