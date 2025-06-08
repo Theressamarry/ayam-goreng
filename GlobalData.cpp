@@ -64,25 +64,27 @@ void loadBahanBakuFromFile() {
     // variavel untuk menyimpan data hsil konversi
     int id, stok;
     string nama;
+    double harga;
 
     string line;
     // membaca tiap baris
     while (getline(file, line)) {
         stringstream ss(line); // gunakan stringstream untuk memecah baris
-        string idStr, namaStr, stokStr; // variabel untuk menyimpan string sementara
+        string idStr, namaStr, stokStr, hargastr; // variabel untuk menyimpan string sementara
         
         // memecah string berdasarkan koma
         getline(ss, idStr, ',');
         getline(ss, namaStr, ',');
         getline(ss, stokStr, ',');
+        getline(ss, hargastr, ',');
 
         // konversi string ke tipe data yang sesuai
-        // stoi untuk mengkonversi string ke integer
-        id = stoi(idStr);
+        id = stoi(idStr); // stoi untuk mengkonversi string ke integer
         nama = namaStr;
-        stok = stoi(stokStr);
+        stok = stoi(stokStr); // stoi untuk mengkonversi string ke integer
+        harga = stod(hargastr); // stod untuk mengkonversi string ke double
 
-        daftarBahanBaku.push_back(BahanBaku(id, nama, stok));
+        daftarBahanBaku.push_back(BahanBaku(id, nama, stok, harga));
     }
 
     file.close();

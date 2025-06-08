@@ -4,13 +4,15 @@
 
 using namespace std;
 
-BahanBaku::BahanBaku(int id, string nama, int stok)
-    : idBahan(id), namaBahan(nama), stok(stok) {}
+BahanBaku::BahanBaku(int id, string nama, int stok, double harga)
+    : idBahan(id), namaBahan(nama), stok(stok), harga(harga){}
 
 void BahanBaku::displayInfo() {
-    cout << "ID: " << idBahan 
-         << " | Nama Bahan: " << namaBahan 
-         << " | Stok: " << stok << endl;
+    cout << "-----------------------------------" << endl;
+    cout << "ID         : " << idBahan << endl;
+    cout << "Nama Bahan : " << namaBahan << endl;
+    cout << "Stok       : " << stok << endl;
+    cout << "Harga/unit : Rp" << harga << endl;
 }
 
 void BahanBaku::tambahStok(int jumlah){
@@ -18,13 +20,15 @@ void BahanBaku::tambahStok(int jumlah){
 }
 
 void BahanBaku::kurangiStok(int jumlah){
-    try {
-        if (jumlah <= 0) throw invalid_argument("Jumlah harus lebih besar dari 0.");
-        if (stok < jumlah) throw runtime_error("Stok tidak cukup untuk mengurangi jumlah yang diminta.");
-        stok -= jumlah;
-    } catch(exception &e){
-        cerr << "Error: " << e.what() << endl;
+    if(jumlah<=0) {
+        cout << "ERROR: Jumlah harus lebih besar dari 0." << endl;
+        return;
     }
+    if(jumlah > stok) {
+        cout << "ERROR: Stok tidak cukup untuk mengurangi " << jumlah << endl;
+        return;
+    }
+    stok -= jumlah;
 }
 
 int BahanBaku::getidBahan() const {
@@ -37,4 +41,8 @@ string BahanBaku::getnamaBahan() const{
 
 int BahanBaku::getstok() const {
     return stok;
+}
+
+double BahanBaku::getharga() const {
+    return harga;
 }

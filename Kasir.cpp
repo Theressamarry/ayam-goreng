@@ -36,63 +36,57 @@ void Kasir::kelolaPenjualan(){
 
                 cout << "\n=== C A T A T  P E N J U A L A N ===" << endl;
 
-                // validasi id adalah angkat postif
-                // while (true){
-                //     cout << "ID Penjualan: "; 
-                //     if (cin >> id && id >0) break;
-                //     cin.clear(); // clear error flag
-                //     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
-                //     cout << "Error: ID harus angka positif!\n" << endl;
-                // }
-
                 // generate id auto
                 id = generatePenjualanId();
                 cout << "ID Penjualan: " << id << endl;
-                // cin.ignore(); // clear buffer
 
                 // ambil tanggal today
                 time_t now = time(0);
                 tm *ltm = localtime(&now);
-
                 char buffer[17]; // untuk format DD-MM-YYYY
                 strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M", ltm);
                 tgl = buffer; // set tanggal ke hari ini
 
                 cout << "Tanggal: " << tgl << endl;
 
-                // validasi nama produk
-                do{
-                    cout << "Nama Produk: ";
-                    cin.ignore(); // clear buffer
-                    getline(cin, nama);
-                } while (nama.empty());
+                double totalHarga =0;
+                while(true){
+                    string nama;
 
-                // validasi jumlah stok
-                for (BahanBaku &b: daftarBahanBaku){
-                    if (b.getnamaBahan()==nama){
-                        while (true){
+                    // nama produk
+                    cout << "Nama Produk: "; // tpi klo ketik ., bakalan keluar dari loop
+                    getline(cin, nama); // clear buffer
+
+                    if (nama == ".") break; // keluar jika user mengetik '.'
+
+                    bool found = false;
+                    for (auto &bahan:daftarBahanBaku){
+                        if (bahan.getnamaBahan()==nama){
+                            // validasi jumlah stok
                             cout << "Jumlah: ";
-                            if(cin >> jumlah && jumlah > 0 && jumlah <= b.getstok()){
-                                b.kurangiStok(jumlah); // kurangi stok
-                                break; // keluar dari loop jika valid
+                            while (!(cin >> jumlah) || jumlah <= 0 || jumlah > bahan.getstok()) {
+                            cout << "Jumlah tidak valid. Silakan coba lagi: ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
                             }
-                            cin.clear(); // clear error flag
-                            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
-                            cout << "Error: Jumlah harus valid dan tidak melebihi stok yang tersedia!\n" << endl;
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+                            double subTotal = jumlah * bahan.getharga();
+                            cout << "Subtotal: Rp" << jumlah << " x Rp" << bahan.getharga() << " = Rp" << subTotal << endl;
+
+                            // kurangi stok dan save penjualan
+                            bahan.kurangiStok(jumlah); // kurangi stok
+                            daftarPenjualan.push_back(ProdukTerjual(id, tgl, nama, jumlah, bahan.getharga()));
+                            totalHarga += subTotal; // tambahkan ke total harga
+
+                            found = true; // set flag true jika produk ditemukan
+                            break;
                         }
+                    } if(!found){
+                        cout << "Produk tidak ditemukan. Silakan coba lagi." << endl;
                     }
                 }
-
-                // validasi harga per unit
-                while (true){
-                    cout << "Harga per unit: ";
-                    if (cin >> harga && harga > 0) break; // pastikan harga positif
-                    cin.clear(); // clear error flag
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
-                    cout << "Error: Harga harus angka positif!\n" << endl;
-                }
-
-                daftarPenjualan.push_back(ProdukTerjual(id, tgl, nama, jumlah, harga));
+                cout << "Total Belanja: Rp" << totalHarga << endl;
                 savePenjualanToFile(); // simpan ke file
                 cout << "Penjualan berhasil dicatat!" << endl;
                 break;
@@ -113,12 +107,14 @@ void Kasir::kelolaPenjualan(){
                 cout << "Masukkan nama produk yang dicari: ";
                 cin >> keyword;
 
+                bool found = false;
                 for(BahanBaku &b: daftarBahanBaku) {
                     if (b.getnamaBahan().find(keyword) != string::npos) {
                         b.displayInfo();
+                        found = true;
                     }
                 }
-                if (!daftarBahanBaku.empty()){
+                if (!found){
                     cout << "Produk tidak ditemukan." << endl;
                 }
                 break;
@@ -131,7 +127,6 @@ void Kasir::kelolaPenjualan(){
     }   while(choice != 0);
     
 }
-
 
 
 void savePenjualanToFile() {

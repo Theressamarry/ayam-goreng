@@ -50,7 +50,6 @@ int main(){
             } else if(logInUser->getRole()=="Kasir"){
                 Kasir* kasir = dynamic_cast<Kasir*>(logInUser);
                 kasir->kelolaPenjualan();
-                // kasir->lihatStok();
             }
         } else{
             cout << "Login gagal!" << endl;

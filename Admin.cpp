@@ -32,6 +32,7 @@ void Admin::manajemenStok(){
             case 1:{ // nambah bahan baku
                 string nama;
                 int id, stok;
+                double harga;
                 
                 // generate id auto
                 id = generateBahanId();
@@ -43,8 +44,12 @@ void Admin::manajemenStok(){
 
                 cout<< "Stok: "; 
                 cin >> stok;
+                cin.ignore(); // clear buffer                
 
-                daftarBahanBaku.push_back(BahanBaku(id, nama, stok));
+                cout << "Harga per unit: ";
+                cin >> harga;
+
+                daftarBahanBaku.push_back(BahanBaku(id, nama, stok, harga));
                 cout << "Bahan Baku berhasil ditambahkan!" << endl;
                 saveBahanBakuToFile(); // simpan ke file
                 break;
@@ -66,11 +71,12 @@ void Admin::manajemenStok(){
 
                 cout<< "Nama Bahan: "; 
                 cin >> nama;
-                cin.ignore(); // clear buffer
+                getline(cin, nama); // clear buffer
 
                 cout<< "Jumlah: "; 
                 cin >> jumlah;
 
+                bool found = false;
                 for(BahanBaku &bahan: daftarBahanBaku){
                     if(bahan.getnamaBahan()== nama){
                         if(jumlah> 0) {
@@ -80,24 +86,32 @@ void Admin::manajemenStok(){
                         }
                         cout << "Stok bahan " << nama << " berhasil diupdate!" << endl;
                         saveBahanBakuToFile(); // simpan ke file
+                        found = true;
+                        break;
                     }
                 }
-                break;
+                if(!found){
+                    cout << "Bahan Baku " << nama << " tidak ditemukan!" << endl;
+                }
             }
             case 4:{ // hapus bahan baku
                 string nama;
                 cout << "Nama Bahan yang ingin dihapus: "; 
                 cin >> nama;
 
+                bool found = false;
                 for(auto it = daftarBahanBaku.begin(); it != daftarBahanBaku.end(); ++it){
                     if(it->getnamaBahan() == nama){
                         daftarBahanBaku.erase(it);
                         cout << "Bahan Baku " << nama << " berhasil dihapus!" << endl;
                         saveBahanBakuToFile(); // simpan ke file
+                        found = true;
                         break;
                     }
                 }
-                break;
+                if(!found){
+                    cout << "Bahan Baku " << nama << " tidak ditemukan!" << endl;
+                }
             }
             case 5: {
                 string keyword;
@@ -114,13 +128,14 @@ void Admin::manajemenStok(){
     } while (choice != 0);
 }
 
-
 void saveBahanBakuToFile() {
     ofstream file("bahan_baku.txt");
     for (const BahanBaku &bahan : daftarBahanBaku) {
         file << bahan.getidBahan() << ","
              << bahan.getnamaBahan() << ","
-             << bahan.getstok() << "\n";
+             << bahan.getstok() << ","
+             << bahan.getharga() << "\n";
+
     }
     file.close();
 }
