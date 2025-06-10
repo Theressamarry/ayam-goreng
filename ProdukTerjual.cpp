@@ -1,5 +1,6 @@
 #include "ProdukTerjual.h"
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -10,9 +11,12 @@ ProdukTerjual::ProdukTerjual(int id, string tgl, string nama, int jml, double hr
 
 // ==== DISPLAY INFO PRODUK TERJUAL ====
 void ProdukTerjual::displayInfo() {
-    cout << "ID Penjualan: " << idPenjualan 
-         << " | Tanggal: " << tanggal 
-         << " | Nama Produk: " << namaProduk 
-         << " | Jumlah: " << jumlah 
-         << " | Total: RP" << harga * jumlah << endl;
+    // itung total price
+    double total = harga * jumlah;
+    
+    cout << "| " << left << setw(8) << idPenjualan << " | "
+         << setw(17) << tanggal << " | "
+         << setw(15) << namaProduk << " | "
+         << setw(6) << jumlah << " | "
+         << "Rp" << setw(8) << total << " |" << endl;
 }

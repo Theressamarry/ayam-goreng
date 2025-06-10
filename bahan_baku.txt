@@ -1,5 +1,5 @@
-10,ikan,489,30000
-11,lele,0,9000
-12,teri,0,1000
-13,tahu,0,1000
-14,kambing,12,40000
+1,Dada,20,18000
+2,Sayap,25,15000
+3,Paha Bawah,18,17000
+4,Nasi Putih,50,6000
+5,Air Botol,40,5000

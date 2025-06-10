@@ -45,7 +45,9 @@ void Kasir::kelolaPenjualan(){
                 string tgl, nama;
                 double harga;
 
-                cout << "\n=========== CATAT PENJUALAN ===========" << endl;
+                cout << "\n---------------------------------------------------------" << endl;
+                cout << "                CATAT PENJUALAN                     " << endl;
+                cout << "---------------------------------------------------------" << endl;
 
                 // generate id auto
                 id = generatePenjualanId();
@@ -59,6 +61,7 @@ void Kasir::kelolaPenjualan(){
                 tgl = buffer; // set tanggal ke hari ini
 
                 cout << "Tanggal: " << tgl << endl;
+                cout << "---------------------------------------------------------" << endl;
 
                 double totalHarga =0;
                 while(true){
@@ -73,25 +76,32 @@ void Kasir::kelolaPenjualan(){
                     bool found = false;
                     for (auto &bahan:daftarBahanBaku){
                         if (bahan.getnamaBahan()==nama){
-                            if (bahan.getstok()==0) { // cek stok
-                                cout << "Stok produk " << nama << " habis. Silakan pilih produk lain." << endl;
-                                continue;; // keluar dari loop
+                            if (bahan.getstok() == 0) {
+                                cout << "---------------------------------------------------------" << endl;
+                                cout << " Stok produk " << nama << " habis. Silakan pilih produk lain." << endl;
+                                cout << "---------------------------------------------------------" << endl;
+                                continue; // keluar dari loop
                             }
-
-                            // validasi jumlah stok
-                            cout << "Jumlah: ";
+                            cout << " Stok tersedia: " << bahan.getstok() << endl;
+                            cout << " Harga satuan : Rp" << bahan.getharga() << endl;
+                            cout << "---------------------------------------------------------" << endl;
+                            cout << " Jumlah       : ";
+                            
                             while (!(cin >> jumlah) || jumlah <= 0 || jumlah > bahan.getstok()) {
-                            cout << "Jumlah tidak valid. Silakan coba lagi: ";
-                            cin.clear();
-                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                                cout << "---------------------------------------------------------" << endl;
+                                cout << " Jumlah tidak valid. Silakan coba lagi: ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                             }
                             cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
                             double subTotal = jumlah * bahan.getharga();
-                            cout << "Subtotal: Rp" << jumlah << " x Rp" << bahan.getharga() << " = Rp" << subTotal << endl;
+                            cout << "---------------------------------------------------------" << endl;
+                            cout << " Subtotal     : Rp" << jumlah << " x Rp" << bahan.getharga() 
+                                << " = Rp" << subTotal << endl;
+                            cout << "---------------------------------------------------------" << endl;
 
-                            // kurangi stok dan save penjualan
-                            bahan.kurangiStok(jumlah); // kurangi stok
+                            bahan.kurangiStok(jumlah);
                             daftarPenjualan.push_back(ProdukTerjual(id, tgl, nama, jumlah, bahan.getharga()));
                             totalHarga += subTotal; // tambahkan ke total harga
                             
@@ -104,10 +114,13 @@ void Kasir::kelolaPenjualan(){
                         cout << "Produk tidak ditemukan. Silakan coba lagi." << endl;
                     }
                 }
-                cout << "Total Belanja: Rp" << totalHarga << endl;
+                cout << " TOTAL BELANJA: Rp" << totalHarga << endl;
+                cout << "---------------------------------------------------------" << endl;
+                cout << " Penjualan berhasil dicatat!" << endl;
+                cout << "---------------------------------------------------------" << endl;
+
                 savePenjualanToFile(); // simpan ke file
                 saveBahanBakuToFile(); // simpan stok ke file
-                cout << "Penjualan berhasil dicatat!" << endl;
                 break;
             }
             case 2: { // lihat semua stok
@@ -121,7 +134,7 @@ void Kasir::kelolaPenjualan(){
                         b.displayInfo();
                     }
                 }
-                cout << "+-----------------------------------+" << endl;
+                cout << "+--------------------------------------------------------+" << endl;
                 break;
             }
             case 3:{ // cari produk
@@ -142,11 +155,16 @@ void Kasir::kelolaPenjualan(){
                 break;
             }
             case 4:{ // laporan penjualan
-                cout << "\n=========== Laporan Penjualan ===========" << endl;
+                cout << "\n---------------------------------------------------------" << endl;
+                cout << "                LAPORAN PENJUALAN                   " << endl;
+                cout << "---------------------------------------------------------" << endl;
                 if (daftarPenjualan.empty()) {
                     cout << "Belum ada data penjualan." << endl;
                     return;
                 }
+
+                cout << "| ID    | Tanggal           | Produk          | Jml | Total    |" << endl;
+                cout << "---------------------------------------------------------" << endl;
                 
                 // Tampilkan semua penjualan
                 for (auto& penjualan : daftarPenjualan) {
@@ -158,7 +176,9 @@ void Kasir::kelolaPenjualan(){
                 for (auto& penjualan : daftarPenjualan) {
                     total += penjualan.getharga() * penjualan.getjumlah();
                 }
-                cout << "TOTAL PENDAPATAN: Rp" << total << endl;
+                cout << "---------------------------------------------------------" << endl;
+                cout << " TOTAL PENDAPATAN: Rp" << total << endl;
+                cout << "---------------------------------------------------------" << endl;
                 break;
             }
             case 0:{ // keluar dari menu kasir

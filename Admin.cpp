@@ -48,20 +48,26 @@ void Admin::manajemenStok(){
                 double harga;
                 
                 id = generateBahanId(); // auto generate id
-                cout << "ID Bahan: " << id << endl;
-
-                cout<< "Nama Bahan: "; 
+                cout << "\n---------------------------------------------------------" << endl;
+                cout << "                TAMBAH BAHAN BAKU BARU                " << endl;
+                cout << "---------------------------------------------------------" << endl;
+                cout << " ID Bahan       : " << id << endl;
+                cout << "---------------------------------------------------------" << endl;
+                cout << " Nama Bahan     : ";
                 getline(cin, nama);
-
-                cout<< "Stok: "; 
+                cout << "---------------------------------------------------------" << endl;
+                cout << " Stok           : ";
                 cin >> stok;
-                cin.ignore(); // clear buffer                
-
-                cout << "Harga per unit: ";
+                cin.ignore(); // clear buffer
+                cout << "---------------------------------------------------------" << endl;
+                cout << " Harga per unit : ";
                 cin >> harga;
+                cout << "---------------------------------------------------------" << endl;
 
                 daftarBahanBaku.push_back(BahanBaku(id, nama, stok, harga));
-                cout << "Bahan Baku berhasil ditambahkan!" << endl;
+                cout << " Bahan Baku berhasil ditambahkan!                      " << endl;
+                cout << "---------------------------------------------------------" << endl;
+
                 saveBahanBakuToFile(); // langsung simpan ke file
                 break;
             }
@@ -69,9 +75,9 @@ void Admin::manajemenStok(){
                 if(daftarBahanBaku.empty()){
                     cout << "Tidak ada bahan baku tersedia." << endl;
                 } else {
-                    cout << "\n+--------------------------------------------------------+" << endl;
+                    cout << "\n---------------------------------------------------------" << endl;
                     cout << "| ID  | Nama Produk          | Stok  | Harga/unit        |" << endl;
-                    cout << "+--------------------------------------------------------+" << endl;
+                    cout << "---------------------------------------------------------" << endl;
                     for (BahanBaku &bahan : daftarBahanBaku) {
                         bahan.displayInfo(); // show info BahanBaku
                     }
@@ -79,37 +85,46 @@ void Admin::manajemenStok(){
                 }
                 break;
             }
-            case 3:{ //update stok bahan baku
+            case 3: { // update stok bahan baku
                 string nama;
                 int jumlah;
 
-                cout<< "Nama Bahan: "; 
-                getline(cin, nama); // clear buffer
-
-                cout<< "Jumlah: "; 
+                cout << "\n---------------------------------------------------------" << endl;
+                cout << "                UPDATE STOK BAHAN BAKU                " << endl;
+                cout << "---------------------------------------------------------" << endl;
+                cout << " Nama Bahan     : ";
+                getline(cin, nama);
+                cout << "---------------------------------------------------------" << endl;
+                cout << " Jumlah         : ";
                 cin >> jumlah;
+                cout << "---------------------------------------------------------" << endl;
 
                 bool found = false;
                 for(BahanBaku &bahan: daftarBahanBaku){
-                    if(bahan.getnamaBahan()== nama){
-                        if(jumlah> 0) {
+                    if(bahan.getnamaBahan() == nama){
+                        if(jumlah > 0) {
                             bahan.tambahStok(jumlah);
-                            cout << "Stok bahan " << nama << " berhasil ditambahkan! Stok sekarang: " << bahan.getstok() << endl;
+                            cout << " Stok bahan " << nama << " berhasil ditambahkan!" << endl;
+                            cout << " Stok sekarang: " << bahan.getstok() << endl;
                         } else {
                             if(bahan.getstok() >= -jumlah){
                                 bahan.kurangiStok(-jumlah);
-                            cout << "Stok bahan " << nama << " berhasil dikurangi! Stok sekarang: " << bahan.getstok() << endl;
+                                cout << " Stok bahan " << nama << " berhasil dikurangi!" << endl;
+                                cout << " Stok sekarang: " << bahan.getstok() << endl;
                             } else {
-                                cout << "Error: Stok tidak mencukupi!" << endl;
+                                cout << " Error: Stok tidak mencukupi!" << endl;
                             }
                         }
-                        saveBahanBakuToFile(); //simpan file
+                        cout << "---------------------------------------------------------" << endl;
+                        saveBahanBakuToFile(); // simpan file
                         found = true;
                         break;
                     }
                 }
+                
                 if(!found){
-                    cout << "Bahan Baku " << nama << " tidak ditemukan!" << endl;
+                    cout << " Bahan Baku " << nama << " tidak ditemukan!" << endl;
+                    cout << "---------------------------------------------------------" << endl;
                 }
                 break;
             }
