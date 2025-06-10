@@ -26,9 +26,16 @@ Kasir::Kasir(int id, string uname, string pwd, string idKaryawan)
 void Kasir::kelolaPenjualan(){
     int choice;
     do{
-        cout << "\n=== M E N U K A S I R ==="<< endl;
-        cout << " 1. Catat Penjualan\n 2. Lihat Semua Stok\n 3. Cari Produk\n 4. Laporan Penjualan\n 0. Quit\n" << endl;
-        cout << "Pilih: ";
+        cout << "\n+===================================+" << endl;
+        cout << "|           MENU KASIR             |" << endl;
+        cout << "+===================================+" << endl;
+        cout << "| 1. Catat Penjualan               |" << endl;
+        cout << "| 2. Lihat Semua Stok              |" << endl;
+        cout << "| 3. Cari Produk                   |" << endl;
+        cout << "| 4. Laporan Penjualan             |" << endl;
+        cout << "| 0. Keluar                        |" << endl;
+        cout << "+===================================+" << endl;
+        cout << " Pilih menu: ";
         cin >> choice;
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
 
@@ -38,7 +45,7 @@ void Kasir::kelolaPenjualan(){
                 string tgl, nama;
                 double harga;
 
-                cout << "\n=== C A T A T  P E N J U A L A N ===" << endl;
+                cout << "\n=========== CATAT PENJUALAN ===========" << endl;
 
                 // generate id auto
                 id = generatePenjualanId();
@@ -104,7 +111,9 @@ void Kasir::kelolaPenjualan(){
                 break;
             }
             case 2: { // lihat semua stok
-                cout << "\n=== Daftar Stok ==="<< endl;
+                cout << "\n+--------------------------------------------------------+" << endl;
+                cout << "| ID  | Nama Produk          | Stok  | Harga/unit        |" << endl;
+                cout << "+--------------------------------------------------------+" << endl;
                 if (daftarBahanBaku.empty()){
                     cout << "Tidak ada stok tersedia"<< endl;
                 } else{
@@ -112,6 +121,7 @@ void Kasir::kelolaPenjualan(){
                         b.displayInfo();
                     }
                 }
+                cout << "+-----------------------------------+" << endl;
                 break;
             }
             case 3:{ // cari produk
@@ -132,7 +142,7 @@ void Kasir::kelolaPenjualan(){
                 break;
             }
             case 4:{ // laporan penjualan
-                cout << "\n=== LAPORAN PENJUALAN ===" << endl;
+                cout << "\n=========== Laporan Penjualan ===========" << endl;
                 if (daftarPenjualan.empty()) {
                     cout << "Belum ada data penjualan." << endl;
                     return;

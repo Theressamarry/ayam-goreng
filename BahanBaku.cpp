@@ -1,6 +1,7 @@
 #include "BahanBaku.h"
 #include <iostream>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -10,11 +11,10 @@ BahanBaku::BahanBaku(int id, string nama, int stok, double harga)
 
 // ==== TAMPILKAN INFO PRODUK ====
 void BahanBaku::displayInfo() {
-    cout << "-----------------------------------" << endl;
-    cout << "ID         : " << idBahan << endl;
-    cout << "Nama Produk : " << namaBahan << endl;
-    cout << "Stok       : " << stok << endl;
-    cout << "Harga/unit : Rp" << harga << endl;
+    cout << "| " << setw(4) << left << idBahan
+         << "| " << setw(20) << left << namaBahan
+         << "| " << setw(6) << right << stok << " "
+         << "| Rp" << setw(9) << right << fixed << setprecision(0) << harga << " |" << endl;
 }
 
 // ==== TAMBAH STOK PRODUK ====

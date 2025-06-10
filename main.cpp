@@ -19,10 +19,16 @@ void registrasiPelanggan() {
     }
 
     string username, password, namaLengkap;
-    cout << "\n=== REGISTRASI PELANGGAN ===" << endl;
-    cout << "Username: "; getline(cin, username);
-    cout << "Password: "; getline(cin, password);
-    cout << "Nama Lengkap: "; getline(cin, namaLengkap);
+    cout << "\n+===================================+" << endl;
+    cout << "|             S I G N  UP             |" << endl;
+    cout << "+====================================+" << endl;
+    cout << "| Username    : ";
+    getline(cin, username);
+    cout << "| Password    : ";
+    getline(cin, password);
+    cout << "| Nama Lengkap: ";
+    getline(cin, namaLengkap);
+    cout << "+=====================================+" << endl;
 
     users.push_back(new Pelanggan(nextId++, username, password, namaLengkap));
     saveUsersToFile(); // simpan data user ke file
@@ -57,11 +63,14 @@ int main() {
     bool running = true;
 
     while (running) {
-        cout << "\n=== MENU UTAMA ===" << endl;
-        cout << "1. Login" << endl;
-        cout << "2. Registrasi Pelanggan" << endl;
-        cout << "3. Keluar" << endl;
-        cout << "Pilihan: ";
+        cout << "\n+===================================+" << endl;
+        cout << "|             MENU UTAMA            |" << endl;
+        cout << "+===================================+" << endl;
+        cout << "| 1. Login                         |" << endl;
+        cout << "| 2. Sign Up                       |" << endl;
+        cout << "| 3. Keluar                        |" << endl;
+        cout << "+===================================+" << endl;
+        cout << " Pilih: ";
 
         int choice;
         cin >> choice;
@@ -69,11 +78,14 @@ int main() {
 
         if (choice == 1) { // login
             string username, password;
-            cout << "\n=== L O G I N ===" << endl;
-            cout << "Username: ";
+            cout << "\n+===================================+" << endl;
+            cout << "|             L O G I N             |" << endl;
+            cout << "+===================================+" << endl;
+            cout << "| Username: ";
             getline(cin, username);
-            cout << "Password: ";
+            cout << "| Password: ";
             getline(cin, password);
+            cout << "+===================================+" << endl;
 
             User* logInUser = authenticate(username, password);
 

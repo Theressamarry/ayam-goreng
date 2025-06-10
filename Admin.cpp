@@ -26,9 +26,17 @@ void Admin::manajemenUser(){
 void Admin::manajemenStok(){
     int choice;
     do{
-        cout<< "\n=== M A N A J E M E N T   S T O K ===" << endl;
-        cout << " 1. Tambah Produk\n 2. Lihat Stok Produk\n 3. Update Stok Produk\n 4. Hapus Produk\n 5. Cari Produk\n 0. Quit" << endl;
-        cout << "Pilih menu: "; 
+        cout << "\n+===================================+" << endl;
+        cout << "|           MENU ADMIN             |" << endl;
+        cout << "+===================================+" << endl;
+        cout << "| 1. Tambah Produk                 |" << endl;
+        cout << "| 2. Lihat Stok Produk             |" << endl;
+        cout << "| 3. Update Stok Produk            |" << endl;
+        cout << "| 4. Hapus Produk                  |" << endl;
+        cout << "| 5. Cari Produk                   |" << endl;
+        cout << "| 0. Keluar                        |" << endl;
+        cout << "+===================================+" << endl;
+        cout << "Pilih menu: ";
         cin>>choice;
 
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear buffer
@@ -61,10 +69,13 @@ void Admin::manajemenStok(){
                 if(daftarBahanBaku.empty()){
                     cout << "Tidak ada bahan baku tersedia." << endl;
                 } else {
-                    cout << "\n=== Daftar Bahan Baku ===" << endl;
+                    cout << "\n+--------------------------------------------------------+" << endl;
+                    cout << "| ID  | Nama Produk          | Stok  | Harga/unit        |" << endl;
+                    cout << "+--------------------------------------------------------+" << endl;
                     for (BahanBaku &bahan : daftarBahanBaku) {
                         bahan.displayInfo(); // show info BahanBaku
                     }
+                    cout << "+--------------------------------------------------------+" << endl;
                 }
                 break;
             }
