@@ -27,7 +27,7 @@ void Kasir::kelolaPenjualan(){
     int choice;
     do{
         cout << "\n=== M E N U K A S I R ==="<< endl;
-        cout << " 1. Catat Penjualan\n 2. Lihat Semua Stok\n 3. Cari Produk\n 0. Quit\n" << endl;
+        cout << " 1. Catat Penjualan\n 2. Lihat Semua Stok\n 3. Cari Produk\n 4. Laporan Penjualan\n 0. Quit\n" << endl;
         cout << "Pilih: ";
         cin >> choice;
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
@@ -68,8 +68,7 @@ void Kasir::kelolaPenjualan(){
                         if (bahan.getnamaBahan()==nama){
                             if (bahan.getstok()==0) { // cek stok
                                 cout << "Stok produk " << nama << " habis. Silakan pilih produk lain." << endl;
-                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear buffer
-                                return; // keluar dari loop
+                                continue;; // keluar dari loop
                             }
 
                             // validasi jumlah stok
@@ -132,6 +131,26 @@ void Kasir::kelolaPenjualan(){
                 }
                 break;
             }
+            case 4:{ // laporan penjualan
+                cout << "\n=== LAPORAN PENJUALAN ===" << endl;
+                if (daftarPenjualan.empty()) {
+                    cout << "Belum ada data penjualan." << endl;
+                    return;
+                }
+                
+                // Tampilkan semua penjualan
+                for (auto& penjualan : daftarPenjualan) {
+                    penjualan.displayInfo();
+                }
+                
+                // Hitung total pendapatan
+                double total = 0;
+                for (auto& penjualan : daftarPenjualan) {
+                    total += penjualan.getharga() * penjualan.getjumlah();
+                }
+                cout << "TOTAL PENDAPATAN: Rp" << total << endl;
+                break;
+            }
             case 0:{ // keluar dari menu kasir
                 savePenjualanToFile(); // simpan penjualan sebelum keluar
                 saveBahanBakuToFile(); // simpan stok sebelum keluar
@@ -146,7 +165,7 @@ void Kasir::kelolaPenjualan(){
 // ==== FUNGSI UNTUK SIMPAN KE FILE ====
 void savePenjualanToFile() {
     ofstream file("penjualan.txt");
-    for (const ProdukTerjual& p : daftarPenjualan) {
+    for (auto& p : daftarPenjualan) {
         file << p.getidPenjualan() << ","
              << p.gettanggal() << ","
              << p.getnamaProduk() << ","

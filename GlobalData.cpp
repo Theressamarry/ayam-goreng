@@ -16,6 +16,7 @@ using namespace std;
 // ==== DEKLARASI VARIABEL GLOBAL ====
 vector<BahanBaku> daftarBahanBaku;
 vector<ProdukTerjual> daftarPenjualan;
+// vector<User*> users; 
 
 int lastBahanId = 0;
 int lastPenjualanId = 0;
@@ -54,23 +55,30 @@ int generatePenjualanId() {
     return lastPenjualanId;
 }
 
-// ==== LOAD DATA DARI FILE ====
+// ==== LOAD PENJUALAN DARI FILE ====
 void loadPenjualanFromFile() {
     ifstream file("penjualan.txt");
-    int id, jumlah;
-    string tanggal, nama;
-    double harga;
+    if (!file.is_open()) return;
 
-    // format file: id,tanggal,nama,jumlah,harga
-    while (getline(file, tanggal, ',') && getline(file, nama, ',') &&
-           file >> id >> jumlah >> harga) {
-        file.ignore();
-        daftarPenjualan.push_back(ProdukTerjual(id, tanggal, nama, jumlah, harga));
+    string line;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string idStr, tanggal, namaProduk, jumlahStr, hargaStr;
+
+        getline(ss, idStr, ',');
+        getline(ss, tanggal, ',');
+        getline(ss, namaProduk, ',');
+        getline(ss, jumlahStr, ',');
+        getline(ss, hargaStr);
+
+        int id = stoi(idStr);
+        int jumlah = stoi(jumlahStr);
+        double harga = stod(hargaStr);
+
+        daftarPenjualan.push_back(ProdukTerjual(id, tanggal, namaProduk, jumlah, harga));
     }
-
     file.close();
 }
-
 // ==== LOAD BAHAN BAKU DARI FILE ==== 
 void loadBahanBakuFromFile() {
     ifstream file("bahan_baku.txt");
@@ -161,4 +169,5 @@ void saveUsersToFile() {
     }
     file.close();
 }
+
 

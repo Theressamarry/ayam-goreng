@@ -1,6 +1,9 @@
 #ifndef ADMIN_H
 #define ADMIN_H
+
 #include "User.h"
+#include "ProdukTerjual.h"
+#include <vector>
 
 using namespace std;
 
@@ -10,6 +13,7 @@ using namespace std;
 class Admin : public User {
 private:
     string idAdmin; // id khusus admin yg berbeda dg user lain
+    vector<ProdukTerjual> daftarPenjualan;
 public:
     // ==== CONSTRUCTOR ADMIN ====
     Admin(int id, string uname,string pwd, string idAdmin);

@@ -1,11 +1,13 @@
 #include "Admin.h"
 #include "BahanBaku.h"
 #include "GlobalData.h"
+#include "ProdukTerjual.h"
 #include <iostream>
 #include <vector>
 #include <fstream>
 #include <string>
 #include <limits>
+#include <map>
 
 using namespace std;
 
@@ -25,7 +27,7 @@ void Admin::manajemenStok(){
     int choice;
     do{
         cout<< "\n=== M A N A J E M E N T   S T O K ===" << endl;
-        cout << " 1. Tambah Bahan Baku\n 2. Lihat Stok\n 3. Update Stok\n 4. hapus Bahan\n 5. cari bahan\n 0. Quit" << endl;
+        cout << " 1. Tambah Produk\n 2. Lihat Stok Produk\n 3. Update Stok Produk\n 4. Hapus Produk\n 5. Cari Produk\n 0. Quit" << endl;
         cout << "Pilih menu: "; 
         cin>>choice;
 
@@ -120,7 +122,7 @@ void Admin::manajemenStok(){
                 }
                 break;
             }
-            case 5: {
+            case 5: { // cari bahan baku
                 string keyword;
                 cout << "Cari BahanBaku: ";
                 cin >> keyword;
