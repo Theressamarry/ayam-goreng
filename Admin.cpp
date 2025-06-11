@@ -18,10 +18,6 @@ void saveBahanBakuToFile(); // agar data bahan baku ga ilang walaupun program di
 Admin::Admin(int id, string uname, string pwd, string idAdmin)
     : User(id, uname, pwd, "Admin"), idAdmin(idAdmin){}
 
-void Admin::manajemenUser(){
-    cout << "Admin mengelola user" << endl;
-}
-
 // ==== FITUR: MANAGE STOK BahanBaku ====
 void Admin::manajemenStok(){
     int choice;

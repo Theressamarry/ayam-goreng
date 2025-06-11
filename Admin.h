@@ -22,7 +22,6 @@ public:
     string getIdAdmin() const { return idAdmin; }
 
     // ==== METHODE ADMIN ====
-    void manajemenUser();
     void manajemenStok();
 };
 #endif

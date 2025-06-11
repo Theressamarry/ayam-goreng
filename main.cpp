@@ -94,7 +94,6 @@ int main() {
 
                 if (logInUser->getRole() == "Admin") {
                     Admin* admin = dynamic_cast<Admin*>(logInUser);
-                    admin->manajemenUser();
                     admin->manajemenStok();
                 } else if (logInUser->getRole() == "Kasir") {
                     Kasir* kasir = dynamic_cast<Kasir*>(logInUser);
