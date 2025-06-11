@@ -23,6 +23,12 @@ public:
 
     // ==== METHODE ADMIN ====
     void manajemenStok();
+    void tampilkanMenuStok();
+    void tambahBahanBaku();
+    void lihatStok();
+    void updateStok();
+    void hapusBahan();
+    void cariBahan();
     void saveBahanBakuToFile();
 };
 #endif
