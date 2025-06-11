@@ -95,9 +95,16 @@ void Admin::manajemenStok(){
                 cin >> jumlah;
                 cout << "---------------------------------------------------------" << endl;
 
+                if (jumlah == 0) {
+                    cout << " Error: Jumlah tidak boleh 0." << endl;
+                    cout << "---------------------------------------------------------" << endl;
+                    break; // langsug keluar dari case
+                }
+
                 bool found = false;
                 for(BahanBaku &bahan: daftarBahanBaku){
                     if(bahan.getnamaBahan() == nama){
+                        found = true; // ditemuin dulu baru proses
                         if(jumlah > 0) {
                             bahan.tambahStok(jumlah);
                             cout << " Stok bahan " << nama << " berhasil ditambahkan!" << endl;
@@ -112,12 +119,10 @@ void Admin::manajemenStok(){
                             }
                         }
                         cout << "---------------------------------------------------------" << endl;
-                        saveBahanBakuToFile(); // simpan file
-                        found = true;
+                        saveBahanBakuToFile(); // simpan perubahan
                         break;
                     }
                 }
-                
                 if(!found){
                     cout << " Bahan Baku " << nama << " tidak ditemukan!" << endl;
                     cout << "---------------------------------------------------------" << endl;
