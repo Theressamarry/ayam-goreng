@@ -25,7 +25,6 @@ void loadPenjualanFromFile();
 void loadUsersFromFile();
 
 // ==== DEKLARASI FUNGSI UNTUK SAVE DATA ====
-// void saveBahanBakuToFile();
 void saveUsersToFile();
 void savePenjualanToFile();
 
