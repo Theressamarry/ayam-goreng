@@ -218,11 +218,15 @@ void Admin::laporanPenjualan() {
     cout << "+---------------------------------------------------------------------------------+" << endl;
 
     int total = 0;
+    map<string, int> rekapProduk; //rangkuman penjualan per produk
 
     // isi tabel
     for (auto& p : daftarPenjualan) {
         int subtotal = p.getjumlah() * p.getharga();
         total += subtotal;
+
+        // save ke map untuk rangkman
+        rekapProduk[p.getnamaProduk()] += p.getjumlah();
 
         cout << "| " << setw(5)  << p.getidPenjualan()
              << "| " << setw(16) << p.gettanggal()
@@ -238,6 +242,15 @@ void Admin::laporanPenjualan() {
     cout << "| " << setw(63) << right << "TOTAL"
          << " | Rp" << setw(10) << total << " |" << endl;
     cout << "+=================================================================================+" << endl;
+
+    // nampilin rekap produk
+    cout << "\n+======================== REKAP PENJUALAN PER PRODUK ========================+" << endl;
+    cout << "| Produk                | Jumlah Terjual |" << endl;
+    cout << "+------------------------+-----------------+" << endl;
+    for (const auto& entry : rekapProduk) {
+        cout << "| " << left << setw(22) << entry.first
+             << "| " << right << setw(15) << entry.second << " |" << endl;
+    }
 }
 
 // TAMPILKAN MENU ADMIN
