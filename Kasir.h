@@ -23,6 +23,7 @@ public:
     // ==== METHODE KASIR ====
     void kelolaPenjualan();
     void lihatStok();
+    void savePenjualanToFile();
 
 };
 #endif

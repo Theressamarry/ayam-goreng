@@ -16,7 +16,6 @@ using namespace std;
 
 // ==== DEKLARASI FUNGSI UNTUK SAVE DATA KE FILE ====
 void savePenjualanToFile(); // deklarasi fungsi untuk menyimpan penjualan ke file
-//void saveBahanBakuToFile(); // deklarasi fungsi untuk menyimpan bahan baku ke file
 
 // ==== CONSTRUCTOR KASIR ====
 Kasir::Kasir(int id, string uname, string pwd, string idKaryawan, Admin* admin)
@@ -105,7 +104,7 @@ void Kasir::kelolaPenjualan(){
                             daftarPenjualan.push_back(ProdukTerjual(id, tgl, nama, jumlah, bahan.getharga()));
                             totalHarga += subTotal; // tambahkan ke total harga
                             
-                            savePenjualanToFile();
+                            this->savePenjualanToFile();
                             admin->saveBahanBakuToFile();
                             found = true; // set flag true jika produk ditemukan
                             break;
@@ -119,7 +118,7 @@ void Kasir::kelolaPenjualan(){
                 cout << " Penjualan berhasil dicatat!" << endl;
                 cout << "---------------------------------------------------------" << endl;
 
-                savePenjualanToFile(); // simpan ke file
+                this->savePenjualanToFile(); // simpan ke file
                 admin->saveBahanBakuToFile(); // simpan stok ke file
                 break;
             }
@@ -193,7 +192,7 @@ void Kasir::kelolaPenjualan(){
 }
 
 // ==== FUNGSI UNTUK SIMPAN KE FILE ====
-void savePenjualanToFile() {
+void Kasir::savePenjualanToFile() {
     ofstream file("penjualan.txt");
     for (auto& p : daftarPenjualan) {
         file << p.getidPenjualan() << ","
@@ -204,3 +203,4 @@ void savePenjualanToFile() {
     }
     file.close();
 }
+
