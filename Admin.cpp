@@ -207,7 +207,7 @@ void Admin::laporanPenjualan() {
         return;
     }
 
-    // Header tabel
+    // header tabel
     cout << left
          << "| " << setw(5) << "ID"
          << "| " << setw(16) << "Tanggal"
@@ -219,7 +219,7 @@ void Admin::laporanPenjualan() {
 
     int total = 0;
 
-    // Isi tabel
+    // isi tabel
     for (auto& p : daftarPenjualan) {
         int subtotal = p.getjumlah() * p.getharga();
         total += subtotal;
@@ -234,7 +234,7 @@ void Admin::laporanPenjualan() {
 
     cout << "+---------------------------------------------------------------------------------+" << endl;
 
-    // Tampilkan total
+    // nampilin total
     cout << "| " << setw(63) << right << "TOTAL"
          << " | Rp" << setw(10) << total << " |" << endl;
     cout << "+=================================================================================+" << endl;
