@@ -1,5 +1,5 @@
 #include "GlobalData.h"
-#include "BahanBaku.h"
+#include "Produk.h"
 #include "ProdukTerjual.h"
 #include "User.h"
 #include "Admin.h"
@@ -14,12 +14,12 @@
 using namespace std;
 
 // ==== DEKLARASI VARIABEL GLOBAL ====
-vector<BahanBaku> daftarBahanBaku;
+vector<Produk> daftarProduk;
 vector<ProdukTerjual> daftarPenjualan;
 
 // vector<User*> users; 
 
-int lastBahanId = 0;
+int lastProdukId = 0;
 int lastPenjualanId = 0;
 
 // ==== LOAD LAST ID DARI FILE ====
@@ -27,7 +27,7 @@ int lastPenjualanId = 0;
 void loadLastIdFromFile() {
     ifstream file("last_id.txt");
     if (file.is_open()) {
-        file >> lastBahanId >> lastPenjualanId;
+        file >> lastProdukId >> lastPenjualanId;
         file.close();
     } 
 }
@@ -37,16 +37,16 @@ void loadLastIdFromFile() {
 void saveLastIdToFile() {
     ofstream file("last_id.txt");
     if (file.is_open()) {
-        file << lastBahanId << " " << lastPenjualanId;
+        file << lastProdukId << " " << lastPenjualanId;
         file.close();
     }
 }
 
-// ==== GENERATE ID UNTUK BAHAN BAKU ====
-int generateBahanId() {
-    lastBahanId++;
+// ==== GENERATE ID UNTUK PRODUK ====
+int generateProdukId() {
+    lastProdukId++;
     saveLastIdToFile();
-    return lastBahanId;
+    return lastProdukId;
 }
 
 // ==== GENERATE ID UNTUK PENJUALAN ====
@@ -80,9 +80,9 @@ void loadPenjualanFromFile() {
     }
     file.close();
 }
-// ==== LOAD BAHAN BAKU DARI FILE ==== 
-void loadBahanBakuFromFile() {
-    ifstream file("bahan_baku.txt");
+// ==== LOAD PRODUK DARI FILE ==== 
+void loadProdukFromFile() {
+    ifstream file("produk_baku.txt");
     // variavel untuk menyimpan data hsil konversi
     int id, stok;
     string nama;
@@ -106,7 +106,7 @@ void loadBahanBakuFromFile() {
         stok = stoi(stokStr); // stoi untuk mengkonversi string ke integer
         harga = stod(hargastr); // stod untuk mengkonversi string ke double
 
-        daftarBahanBaku.push_back(BahanBaku(id, nama, stok, harga));
+        daftarProduk.push_back(Produk(id, nama, stok, harga));
     }
 
     file.close();
@@ -127,7 +127,7 @@ void loadUsersFromFile() {
         getline(ss, username, ',');
         getline(ss, password, ',');
         getline(ss, role, ',');
-        getline(ss, extraData);  // Untuk data tambahan (idAdmin/idKasir/namaLengkap)
+        getline(ss, extraData);  // Untuk data tamproduk (idAdmin/idKasir/namaLengkap)
 
         int id = stoi(idStr);
 
@@ -160,7 +160,7 @@ void saveUsersToFile() {
              << user->getPassword() << ","
              << user->getRole() << ",";
 
-        // simpan data tambahan sesuai role
+        // simpan data tamproduk sesuai role
         if (user->getRole() == "Admin") {
             Admin* admin = dynamic_cast<Admin*>(user);
             file << admin->getIdAdmin();

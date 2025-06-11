@@ -9,12 +9,14 @@
 
 using namespace std;
 
-vector<User*> users; // menyimpan data user
+vector<User *> users; // menyimpan data user
 
 // ==== REGISTRASI PELANGGAN ====
-void registrasiPelanggan() {
+void registrasiPelanggan()
+{
     static int nextId = 3; // start dari 3 karena admin(1) dan kasir(2) sudah ada
-    if (!users.empty()) {
+    if (!users.empty())
+    {
         nextId = users.back()->getId() + 1; // ambil id terakhir + 1
     }
 
@@ -36,37 +38,42 @@ void registrasiPelanggan() {
 }
 
 // ==== AUTENTIKASI USER ====
-User* authenticate(const string& username, const string& password) {
-    for (User* user : users) {
-        if (user->login(username, password)) {
+User *authenticate(const string &username, const string &password)
+{
+    for (User *user : users)
+    {
+        if (user->login(username, password))
+        {
             return user;
         }
     }
     return nullptr;
 }
 
-// ==== FUNSI UTAMA (MAIN PRIGRAM) ==== 
-int main() {
+// ==== FUNSI UTAMA (MAIN PRIGRAM) ====
+int main()
+{
     // Load data dari file
-    loadBahanBakuFromFile();
+    loadProdukFromFile();
     loadPenjualanFromFile();
     loadLastIdFromFile();
-    loadUsersFromFile(); 
-    
+    loadUsersFromFile();
+
     // bikin default admin dan kasir
-    if (users.empty()) {
-        Admin* admin1 = new Admin(1, "admin", "admin123", "ADM01");
-        Kasir* kasir1 = new Kasir(2, "kasir", "kasir123", "KSR01", admin1);
+    if (users.empty())
+    {
+        Admin *admin1 = new Admin(1, "admin", "admin123", "ADM01");
+        Kasir *kasir1 = new Kasir(2, "kasir", "kasir123", "KSR01", admin1);
 
         users.push_back(admin1);
         users.push_back(kasir1);
         saveUsersToFile();
-
     }
 
     bool running = true;
 
-    while (running) {
+    while (running)
+    {
         cout << "\n+===================================+" << endl;
         cout << "|             MENU UTAMA            |" << endl;
         cout << "+===================================+" << endl;
@@ -78,9 +85,10 @@ int main() {
 
         int choice;
         cin >> choice;
-        cin.ignore(); 
+        cin.ignore();
 
-        if (choice == 1) { // login
+        if (choice == 1)
+        { // login
             string username, password;
             cout << "\n+===================================+" << endl;
             cout << "|             L O G I N             |" << endl;
@@ -91,19 +99,25 @@ int main() {
             getline(cin, password);
             cout << "+===================================+" << endl;
 
-            User* logInUser = authenticate(username, password);
+            User *logInUser = authenticate(username, password);
 
-            if (logInUser != nullptr) {
+            if (logInUser != nullptr)
+            {
                 cout << "\nLogin berhasil!" << endl;
 
-                if (logInUser->getRole() == "Admin") {
-                    Admin* admin = dynamic_cast<Admin*>(logInUser);
+                if (logInUser->getRole() == "Admin")
+                {
+                    Admin *admin = dynamic_cast<Admin *>(logInUser);
                     admin->manajemenStok();
-                } else if (logInUser->getRole() == "Kasir") {
-                    Kasir* kasir = dynamic_cast<Kasir*>(logInUser);
+                }
+                else if (logInUser->getRole() == "Kasir")
+                {
+                    Kasir *kasir = dynamic_cast<Kasir *>(logInUser);
                     kasir->kelolaPenjualan();
-                } else if (logInUser->getRole() == "Pelanggan") {
-                    Pelanggan* pelanggan = dynamic_cast<Pelanggan*>(logInUser);
+                }
+                else if (logInUser->getRole() == "Pelanggan")
+                {
+                    Pelanggan *pelanggan = dynamic_cast<Pelanggan *>(logInUser);
                     pelanggan->displayInfo();
                     pelanggan->lihatMenu();
                 }
@@ -112,24 +126,33 @@ int main() {
                 cout << "\nKembali ke menu utama? (y/n): ";
                 getline(cin, input);
 
-                if (!input.empty() && tolower(input[0]) == 'n') {
+                if (!input.empty() && tolower(input[0]) == 'n')
+                {
                     running = false;
                 }
-            } else {
+            }
+            else
+            {
                 cout << "Login gagal!" << endl;
             }
-
-        } else if (choice == 2) { // registrasi pelanggan
+        }
+        else if (choice == 2)
+        { // registrasi pelanggan
             registrasiPelanggan();
-        } else if (choice == 3) { // keluar dari program
+        }
+        else if (choice == 3)
+        { // keluar dari program
             running = false;
-        } else {
+        }
+        else
+        {
             cout << "Pilihan tidak valid!" << endl;
         }
     }
 
     // ==== DEOLKASI USER ====
-    for (User* user : users) {
+    for (User *user : users)
+    {
         delete user;
     }
 

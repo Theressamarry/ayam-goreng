@@ -2,25 +2,25 @@
 #define GLOBALDATA_H
 
 #include <vector>
-#include "BahanBaku.h"
+#include "Produk.h"
 #include "ProdukTerjual.h"
 #include "User.h"
 
 using namespace std;
 
 // ==== DEKLARASI VARIABEL GLOBAL ====
-extern vector<BahanBaku> daftarBahanBaku;
+extern vector<Produk> daftarProduk;
 extern vector<ProdukTerjual> daftarPenjualan;
 extern vector<User*> users; 
 
 // ==== DEKLARASI VARIABEL ID ====
-int generateBahanId();
+int generateProdukId();
 int generatePenjualanId();
 void loadLastIdFromFile();
 void saveLastIdToFile();
 
 // ==== DEKLARASI FUNGSI UNTUK LOAD DATA ====
-void loadBahanBakuFromFile();
+void loadProdukFromFile();
 void loadPenjualanFromFile();
 void loadUsersFromFile();
 

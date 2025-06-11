@@ -1,5 +1,5 @@
 #include "Admin.h"
-#include "BahanBaku.h"
+#include "Produk.h"
 #include "GlobalData.h"
 #include "ProdukTerjual.h"
 #include <iostream>
@@ -12,14 +12,15 @@
 using namespace std;
 
 // ==== DEKLARASI FUNGSI UNTUK SAVE DATA KE FILE ====
-//void saveBahanBakuToFile(); // agar data bahan baku ga ilang walaupun program ditutup
+// void saveProdukToFile(); // agar data produk ga ilang walaupun program ditutup
 
 // CONSTRUKTOR ADMIN
 Admin::Admin(int id, string uname, string pwd, string idAdmin)
-    : User(id, uname, pwd, "Admin"), idAdmin(idAdmin){}
+    : User(id, uname, pwd, "Admin"), idAdmin(idAdmin) {}
 
 // FUNGSI TAMPILKAN MENU ADMIN
-void Admin::tampilkanMenuStok() {
+void Admin::tampilkanMenuStok()
+{
     cout << "\n+===================================+" << endl;
     cout << "|           MENU ADMIN             |" << endl;
     cout << "+===================================+" << endl;
@@ -33,18 +34,19 @@ void Admin::tampilkanMenuStok() {
 }
 
 // FUNGSI TAMBAH PRODUK
-void Admin::tambahBahanBaku() {
+void Admin::tambahProduk()
+{
     string nama;
     int id, stok;
     double harga;
-                
-    id = generateBahanId(); // auto generate id
+
+    id = generateProdukId(); // auto generate id
     cout << "\n---------------------------------------------------------" << endl;
-    cout << "                TAMBAH BAHAN BAKU BARU                " << endl;
+    cout << "                TAMBAH PRODUK BARU                " << endl;
     cout << "---------------------------------------------------------" << endl;
-    cout << " ID Bahan       : " << id << endl;
+    cout << " ID Produk       : " << id << endl;
     cout << "---------------------------------------------------------" << endl;
-    cout << " Nama Bahan     : ";
+    cout << " Nama Produk     : ";
     getline(cin, nama);
     cout << "---------------------------------------------------------" << endl;
     cout << " Stok           : ";
@@ -55,146 +57,190 @@ void Admin::tambahBahanBaku() {
     cin >> harga;
     cout << "---------------------------------------------------------" << endl;
 
-    daftarBahanBaku.push_back(BahanBaku(id, nama, stok, harga));
-    cout << " Bahan Baku berhasil ditambahkan!                      " << endl;
+    daftarProduk.push_back(Produk(id, nama, stok, harga));
+    cout << " Produk berhasil ditambahkan!                      " << endl;
     cout << "---------------------------------------------------------" << endl;
 
-    this->saveBahanBakuToFile(); // langsung simpan ke file
-
+    this->saveProdukToFile(); // langsung simpan ke file
 }
 
 // FUNGSI LIHAT STOK
-void Admin::lihatStok() {
-    if (daftarBahanBaku.empty()) {
-        cout << "Tidak ada bahan baku tersedia." << endl;
-    } else {
+void Admin::lihatStok()
+{
+    if (daftarProduk.empty())
+    {
+        cout << "Tidak ada produk tersedia." << endl;
+    }
+    else
+    {
         cout << "\n---------------------------------------------------------" << endl;
         cout << "| ID  | Nama Produk          | Stok  | Harga/unit        |" << endl;
         cout << "---------------------------------------------------------" << endl;
-        for (BahanBaku &bahan : daftarBahanBaku) {
-            bahan.displayInfo(); // show info BahanBaku
+        for (Produk &produk : daftarProduk)
+        {
+            produk.displayInfo(); // show info Produk
         }
         cout << "+--------------------------------------------------------+" << endl;
     }
 }
 
 // FUNGSI UPDATE STOK
-void Admin::updateStok() {
+void Admin::updateStok()
+{
     string nama;
     int jumlah;
 
     cout << "\n---------------------------------------------------------" << endl;
-    cout << "                UPDATE STOK BAHAN BAKU                " << endl;
+    cout << "                UPDATE STOK PRODUK               " << endl;
     cout << "---------------------------------------------------------" << endl;
-    cout << " Nama Bahan     : ";
+    cout << " Nama Produk     : ";
     getline(cin, nama);
     cout << "---------------------------------------------------------" << endl;
     cout << " Jumlah         : ";
     cin >> jumlah;
     cout << "---------------------------------------------------------" << endl;
 
-    if (jumlah == 0) {
+    if (jumlah == 0)
+    {
         cout << " Error: Jumlah tidak boleh 0." << endl;
         cout << "---------------------------------------------------------" << endl;
         return; // langsung keluar dari fungsi
     }
 
     bool found = false;
-    for(BahanBaku &bahan: daftarBahanBaku){
-        if(bahan.getnamaBahan() == nama){
+    for (Produk &produk : daftarProduk)
+    {
+        if (produk.getnamaProduk() == nama)
+        {
             found = true; // ditemuin dulu baru proses
-            if(jumlah > 0) {
-                bahan.tambahStok(jumlah);
-                cout << " Stok bahan " << nama << " berhasil ditambahkan!" << endl;
-                cout << " Stok sekarang: " << bahan.getstok() << endl;
-            } else {
-                if(bahan.getstok() >= -jumlah){
-                    bahan.kurangiStok(-jumlah);
-                    cout << " Stok bahan " << nama << " berhasil dikurangi!" << endl;
-                    cout << " Stok sekarang: " << bahan.getstok() << endl;
-                } else {
+            if (jumlah > 0)
+            {
+                produk.tambahStok(jumlah);
+                cout << " Stok produk " << nama << " berhasil ditambahkan!" << endl;
+                cout << " Stok sekarang: " << produk.getstok() << endl;
+            }
+            else
+            {
+                if (produk.getstok() >= -jumlah)
+                {
+                    produk.kurangiStok(-jumlah);
+                    cout << " Stok produk " << nama << " berhasil dikurangi!" << endl;
+                    cout << " Stok sekarang: " << produk.getstok() << endl;
+                }
+                else
+                {
                     cout << " Error: Stok tidak mencukupi!" << endl;
                 }
             }
             cout << "---------------------------------------------------------" << endl;
-            this->saveBahanBakuToFile(); // simpan perubahan
+            this->saveProdukToFile(); // simpan peruproduk
             break;
         }
     }
-    if(!found){
-        cout << " Bahan Baku " << nama << " tidak ditemukan!" << endl;
+    if (!found)
+    {
+        cout << " Produk " << nama << " tidak ditemukan!" << endl;
         cout << "---------------------------------------------------------" << endl;
     }
 }
 
-// FUNGSI HAPUS BAHAN
-void Admin::hapusBahan() {
+// FUNGSI HAPUS PRODUK
+void Admin::hapusProduk()
+{
     string nama;
-    cout << "Nama Bahan yang ingin dihapus: "; 
+    cout << "Nama Produk yang ingin dihapus: ";
     cin >> nama;
 
     bool found = false;
-    for(auto it = daftarBahanBaku.begin(); it != daftarBahanBaku.end(); ++it){
-        if(it->getnamaBahan() == nama){
-            daftarBahanBaku.erase(it);
-            cout << "Bahan Baku " << nama << " berhasil dihapus!" << endl;
-            this->saveBahanBakuToFile(); // simpan ke file
+    for (auto it = daftarProduk.begin(); it != daftarProduk.end(); ++it)
+    {
+        if (it->getnamaProduk() == nama)
+        {
+            daftarProduk.erase(it);
+            cout << "Produk " << nama << " berhasil dihapus!" << endl;
+            this->saveProdukToFile(); // simpan ke file
             found = true;
             break;
         }
     }
-    if(!found){
-        cout << "Bahan Baku " << nama << " tidak ditemukan!" << endl;
+    if (!found)
+    {
+        cout << "Produk " << nama << " tidak ditemukan!" << endl;
     }
 }
 
-// FUMGSI CARI BAHAN
-void Admin::cariBahan() {
+// FUMGSI CARI PRODUK
+void Admin::cariProduk()
+{
     string keyword;
-    cout << "Cari BahanBaku: ";
+    cout << "Cari Produk: ";
     cin >> keyword;
     bool found = false;
-    for (BahanBaku &bahan : daftarBahanBaku) {
-        if (bahan.getnamaBahan().find(keyword) != string::npos) {
-            bahan.displayInfo();
+    for (Produk &produk : daftarProduk)
+    {
+        if (produk.getnamaProduk().find(keyword) != string::npos)
+        {
+            produk.displayInfo();
             found = true;
         }
     }
-    if (!found) {
-        cout << "Tidak ada bahan baku yang ditemukan dengan keyword '" << keyword << "'." << endl;
+    if (!found)
+    {
+        cout << "Tidak ada produk yang ditemukan dengan keyword '" << keyword << "'." << endl;
     }
 }
 
-// TAMPILAN MENU ADMIN
-void Admin::manajemenStok() {
-    int pilihan;
-    do {
+// TAMPILKAN MENU ADMIN
+void Admin::manajemenStok()
+{
+    int choice;
+    do
+    {
         tampilkanMenuStok();
-        cout << "Masukkan pilihan: ";
-        cin >> pilihan;
+        cout << "Masukkan Pilihan: ";
+        cin >> choice;
         cin.ignore(); // biar aman dari sisa input
 
-        switch (pilihan) {
-            case 1: tambahBahanBaku(); break;
-            case 2: lihatStok(); break;
-            case 3: updateStok(); break;
-            case 4: hapusBahan(); break;
-            case 5: cariBahan(); break;
-            case 6: cout << "Kembali ke menu sebelumnya.\n"; break;
-            default: cout << "Pilihan tidak valid.\n";
+        switch (choice)
+        {
+        case 1:
+            tambahProduk();
+            break;
+        case 2:
+            lihatStok();
+            break;
+        case 3:
+            updateStok();
+            break;
+        case 4:
+            hapusProduk();
+            break;
+        case 5:
+            cariProduk();
+            break;
+        case 6:
+            cout << "Kembali ke menu sebelumnya.\n";
+            break;
+        case 0:
+            saveProdukToFile(); // simpan sebelum keluar
+            cout << "Keluar dari program.\n";
+            break;
+        default:
+            cout << "Pilihan tidak valid.\n";
         }
-    } while (pilihan != 6);
+    } while (choice != 0);
 }
 
-
-void Admin::saveBahanBakuToFile() {
-    ofstream file("bahan_baku.txt");
-    for (const BahanBaku &bahan : daftarBahanBaku) {
-        file << bahan.getidBahan() << ","
-             << bahan.getnamaBahan() << ","
-             << bahan.getstok() << ","
-             << bahan.getharga() << "\n";
-
+// === FUNGSI UNTUK SIMPAN PRODUK KE FILE ===
+void Admin::saveProdukToFile()
+{
+    ofstream file("produk_baku.txt");
+    for (const Produk &produk : daftarProduk)
+    {
+        file << produk.getidProduk() << ","
+             << produk.getnamaProduk() << ","
+             << produk.getstok() << ","
+             << produk.getharga() << "\n";
     }
     file.close();
 }

@@ -12,26 +12,30 @@ Pelanggan::Pelanggan(int id, string uname, string pwd, string nama)
     : User(id, uname, pwd, "Pelanggan"), namaLengkap(nama) {}
 
 // ==== DISPLAY INFO PELANGGAN ====
-void Pelanggan::displayInfo() {
+void Pelanggan::displayInfo()
+{
     cout << "\n=== INFO PELANGGAN ===" << endl;
     cout << "Username: " << username << endl;
     cout << "Nama Lengkap: " << namaLengkap << endl;
 }
 
 // ==== LIHAT MENU PRODUK ====
-void Pelanggan::lihatMenu() {
+void Pelanggan::lihatMenu()
+{
     cout << "\n=== DAFTAR MENU ===" << endl;
-    cout << left << setw(5) << "Nama Produk" 
+    cout << left << setw(5) << "Nama Produk"
          << right << setw(12) << "Harga" << endl;
     cout << "---------------------------" << endl;
-    
-    for (const BahanBaku &bahan : daftarBahanBaku) {
-        cout << left << setw(5) << bahan.getnamaBahan() 
-             << right << setw(15) << "Rp" << bahan.getharga() << endl;
+
+    for (const Produk &produk : daftarProduk)
+    {
+        cout << left << setw(5) << produk.getnamaProduk()
+             << right << setw(15) << "Rp" << produk.getharga() << endl;
     }
 }
 
 // ==== GETTER NAMA LENGKAP PELANGGAN ====
-string Pelanggan::getNamaLengkap() const {
+string Pelanggan::getNamaLengkap() const
+{
     return namaLengkap;
 }

@@ -9,7 +9,7 @@ using namespace std;
 
 // ==== DEKLARASI ADMIN CLASS ====
 // class admin ini merupakan turunan dari class User
-// tpi dia punya fitur tambahan yatu kelola BahanBaku
+// tpi dia punya fitur tambahan yatu kelola Produk
 class Admin : public User {
 private:
     string idAdmin; // id khusus admin yg berbeda dg user lain
@@ -24,11 +24,11 @@ public:
     // ==== METHODE ADMIN ====
     void manajemenStok();
     void tampilkanMenuStok();
-    void tambahBahanBaku();
+    void tambahProduk();
     void lihatStok();
     void updateStok();
-    void hapusBahan();
-    void cariBahan();
-    void saveBahanBakuToFile();
+    void hapusProduk();
+    void cariProduk();
+    void saveProdukToFile();
 };
 #endif

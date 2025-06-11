@@ -1,29 +1,29 @@
-#include "BahanBaku.h"
+#include "Produk.h"
 #include <iostream>
 #include <string>
 #include <iomanip>
 
 using namespace std;
 
-// ==== CONSTRUKTOR BAHAN BAKU ====
-BahanBaku::BahanBaku(int id, string nama, int stok, double harga)
-    : idBahan(id), namaBahan(nama), stok(stok), harga(harga){}
+// ==== CONSTRUKTOR PRODUK ====
+Produk::Produk(int id, string nama, int stok, double harga)
+    : idProduk(id), namaProduk(nama), stok(stok), harga(harga){}
 
 // ==== TAMPILKAN INFO PRODUK ====
-void BahanBaku::displayInfo() {
-    cout << "| " << setw(4) << left << idBahan
-         << "| " << setw(20) << left << namaBahan
+void Produk::displayInfo() {
+    cout << "| " << setw(4) << left << idProduk
+         << "| " << setw(20) << left << namaProduk
          << "| " << setw(6) << right << stok << " "
          << "| Rp" << setw(9) << right << fixed << setprecision(0) << harga << " |" << endl;
 }
 
 // ==== TAMBAH STOK PRODUK ====
-void BahanBaku::tambahStok(int jumlah){
+void Produk::tambahStok(int jumlah){
     stok += jumlah;
 }
 
 // ==== KURANGI STOK PRODUK ====
-void BahanBaku::kurangiStok(int jumlah){
+void Produk::kurangiStok(int jumlah){
     if(jumlah<=0) {
         cout << "ERROR: Jumlah harus lebih besar dari 0." << endl;
         return;
@@ -35,19 +35,19 @@ void BahanBaku::kurangiStok(int jumlah){
     stok -= jumlah;
 }
 
-// ==== GETTER BAHAN BAKU ====
-int BahanBaku::getidBahan() const {
-    return idBahan;
+// ==== GETTER PRODUK ====
+int Produk::getidProduk() const {
+    return idProduk;
 }
 
-string BahanBaku::getnamaBahan() const{
-    return namaBahan;
+string Produk::getnamaProduk() const{
+    return namaProduk;
 }
 
-int BahanBaku::getstok() const {
+int Produk::getstok() const {
     return stok;
 }
 
-double BahanBaku::getharga() const {
+double Produk::getharga() const {
     return harga;
 }
