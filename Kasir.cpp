@@ -174,7 +174,7 @@ void Kasir::kelolaPenjualan() {
 
 // ==== FUNGSI UNTUK SIMPAN KE FILE ====
 void Kasir::savePenjualanToFile() {
-    ofstream file("penjualan.txt");
+    ofstream file("penjualan.txt", ios::app);
     for (auto& p : daftarPenjualan) {
         file << p.getidPenjualan() << ","
              << p.gettanggal() << ","
@@ -183,4 +183,5 @@ void Kasir::savePenjualanToFile() {
              << p.getharga() << "\n";
     }
     file.close();
+    daftarPenjualan.clear(); // clear setelah disimpan agar tidak dobel saat append lagi
 }

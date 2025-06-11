@@ -8,6 +8,8 @@
 #include <string>
 #include <limits>
 #include <map>
+#include <sstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -29,6 +31,7 @@ void Admin::tampilkanMenuStok()
     cout << "| 3. Update Stok Produk            |" << endl;
     cout << "| 4. Hapus Produk                  |" << endl;
     cout << "| 5. Cari Produk                   |" << endl;
+    cout << "| 6. Laporan Penjualan             |" << endl;
     cout << "| 0. Keluar                        |" << endl;
     cout << "+===================================+" << endl;
 }
@@ -190,6 +193,53 @@ void Admin::cariProduk()
     }
 }
 
+// FUNGSI LAPORAN PENJUALAN
+void Admin::laporanPenjualan() {
+    loadPenjualanFromFile(); // readfile penjualan.txt 
+
+    cout << "\n+=================================================================================+" << endl;
+    cout << "|                             LAPORAN PENJUALAN                                   |" << endl;
+    cout << "+=================================================================================+" << endl;
+
+    if (daftarPenjualan.empty()) {
+        cout << "| Tidak ada data penjualan.                                                      |\n";
+        cout << "+=================================================================================+" << endl;
+        return;
+    }
+
+    // Header tabel
+    cout << left
+         << "| " << setw(5) << "ID"
+         << "| " << setw(16) << "Tanggal"
+         << "| " << setw(20) << "Produk"
+         << "| " << setw(6) << "Qty"
+         << "| " << setw(10) << "Harga"
+         << "| " << setw(12) << "Subtotal" << " |" << endl;
+    cout << "+---------------------------------------------------------------------------------+" << endl;
+
+    int total = 0;
+
+    // Isi tabel
+    for (auto& p : daftarPenjualan) {
+        int subtotal = p.getjumlah() * p.getharga();
+        total += subtotal;
+
+        cout << "| " << setw(5)  << p.getidPenjualan()
+             << "| " << setw(16) << p.gettanggal()
+             << "| " << setw(20) << p.getnamaProduk()
+             << "| " << setw(6)  << p.getjumlah()
+             << "| Rp" << setw(8) << p.getharga()
+             << "| Rp" << setw(10) << subtotal << " |" << endl;
+    }
+
+    cout << "+---------------------------------------------------------------------------------+" << endl;
+
+    // Tampilkan total
+    cout << "| " << setw(63) << right << "TOTAL"
+         << " | Rp" << setw(10) << total << " |" << endl;
+    cout << "+=================================================================================+" << endl;
+}
+
 // TAMPILKAN MENU ADMIN
 void Admin::manajemenStok()
 {
@@ -219,6 +269,8 @@ void Admin::manajemenStok()
             cariProduk();
             break;
         case 6:
+            laporanPenjualan();
+            break;
             cout << "Kembali ke menu sebelumnya.\n";
             break;
         case 0:
@@ -242,5 +294,32 @@ void Admin::saveProdukToFile()
              << produk.getstok() << ","
              << produk.getharga() << "\n";
     }
+    file.close();
+}
+
+// === FUNGSI UNTUK LOAD PENJUALAN DARI FILE ===
+void Admin::loadPenjualanFromFile() {
+    daftarPenjualan.clear();
+    ifstream file("penjualan.txt");
+    if (!file.is_open()) return;
+
+    int id, jumlah, harga;
+    string tanggal, namaProduk, line;
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string token;
+        getline(ss, token, ',');
+        id = stoi(token);
+        getline(ss, tanggal, ',');
+        getline(ss, namaProduk, ',');
+        getline(ss, token, ',');
+        jumlah = stoi(token);
+        getline(ss, token, ',');
+        harga = stoi(token);
+
+        daftarPenjualan.push_back(ProdukTerjual(id, tanggal, namaProduk, jumlah, harga));
+    }
+
     file.close();
 }

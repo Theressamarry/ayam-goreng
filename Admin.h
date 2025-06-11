@@ -29,6 +29,9 @@ public:
     void updateStok();
     void hapusProduk();
     void cariProduk();
+    void laporanPenjualan();
+
     void saveProdukToFile();
+    void loadPenjualanFromFile();
 };
 #endif
