@@ -23,5 +23,6 @@ public:
 
     // ==== METHODE ADMIN ====
     void manajemenStok();
+    void saveBahanBakuToFile();
 };
 #endif

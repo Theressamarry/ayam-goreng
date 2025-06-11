@@ -16,6 +16,7 @@ using namespace std;
 // ==== DEKLARASI VARIABEL GLOBAL ====
 vector<BahanBaku> daftarBahanBaku;
 vector<ProdukTerjual> daftarPenjualan;
+
 // vector<User*> users; 
 
 int lastBahanId = 0;
@@ -112,6 +113,7 @@ void loadBahanBakuFromFile() {
 }
 
 // ==== LOAD DATA USER DARI FILE ====
+Admin* globalAdmin = nullptr;
 void loadUsersFromFile() {
     ifstream file("users.txt");
     if (!file.is_open()) return;
@@ -131,10 +133,16 @@ void loadUsersFromFile() {
 
         // role menentukan jenis user yang akan dibuat
         if (role == "Admin") {
-            users.push_back(new Admin(id, username, password, extraData));
+            Admin* admin = new Admin(id, username, password, extraData);
+            users.push_back(admin);
+            globalAdmin = admin; // simpan admin sebagai fungsi global
         } 
         else if (role == "Kasir") {
-            users.push_back(new Kasir(id, username, password, extraData));
+            if (globalAdmin != nullptr) {
+                users.push_back(new Kasir(id, username, password, extraData, globalAdmin));
+            } else {
+                cerr << "Error: Admin belum dibuat sebelum Kasir. Pastikan urutan di file users.txt benar.\n";
+            }
         }
         else if (role == "Pelanggan") {
             users.push_back(new Pelanggan(id, username, password, extraData));

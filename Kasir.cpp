@@ -16,11 +16,11 @@ using namespace std;
 
 // ==== DEKLARASI FUNGSI UNTUK SAVE DATA KE FILE ====
 void savePenjualanToFile(); // deklarasi fungsi untuk menyimpan penjualan ke file
-void saveBahanBakuToFile(); // deklarasi fungsi untuk menyimpan bahan baku ke file
+//void saveBahanBakuToFile(); // deklarasi fungsi untuk menyimpan bahan baku ke file
 
 // ==== CONSTRUCTOR KASIR ====
-Kasir::Kasir(int id, string uname, string pwd, string idKaryawan)
-    : User(id, uname, pwd, "Kasir"), idKaryawan(idKaryawan){}
+Kasir::Kasir(int id, string uname, string pwd, string idKaryawan, Admin* admin)
+    : User(id, uname, pwd, "Kasir"), idKaryawan(idKaryawan), admin(admin) {}
 
 // ==== FITUR: KELOLA PENJUALAN ====
 void Kasir::kelolaPenjualan(){
@@ -106,7 +106,7 @@ void Kasir::kelolaPenjualan(){
                             totalHarga += subTotal; // tambahkan ke total harga
                             
                             savePenjualanToFile();
-                            saveBahanBakuToFile();
+                            admin->saveBahanBakuToFile();
                             found = true; // set flag true jika produk ditemukan
                             break;
                         }
@@ -120,7 +120,7 @@ void Kasir::kelolaPenjualan(){
                 cout << "---------------------------------------------------------" << endl;
 
                 savePenjualanToFile(); // simpan ke file
-                saveBahanBakuToFile(); // simpan stok ke file
+                admin->saveBahanBakuToFile(); // simpan stok ke file
                 break;
             }
             case 2: { // lihat semua stok
@@ -183,10 +183,10 @@ void Kasir::kelolaPenjualan(){
             }
             case 0:{ // keluar dari menu kasir
                 savePenjualanToFile(); // simpan penjualan sebelum keluar
-                saveBahanBakuToFile(); // simpan stok sebelum keluar
+                admin->saveBahanBakuToFile(); // simpan stok sebelum keluar
                 cout << "Keluar dari menu kasir." << endl;
                 break;
-            }
+            } 
         }
     }   while(choice != 0);
     

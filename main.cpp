@@ -55,9 +55,13 @@ int main() {
     
     // bikin default admin dan kasir
     if (users.empty()) {
-        users.push_back(new Admin(1, "admin", "admin123", "ADM01")); // idUser, uname, pwd, idAdmin
-        users.push_back(new Kasir(2, "kasir", "kasir123", "KSR01")); // idUser, uname, pwd, idKaryawan
+        Admin* admin1 = new Admin(1, "admin", "admin123", "ADM01");
+        Kasir* kasir1 = new Kasir(2, "kasir", "kasir123", "KSR01", admin1);
+
+        users.push_back(admin1);
+        users.push_back(kasir1);
         saveUsersToFile();
+
     }
 
     bool running = true;

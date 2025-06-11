@@ -12,7 +12,7 @@
 using namespace std;
 
 // ==== DEKLARASI FUNGSI UNTUK SAVE DATA KE FILE ====
-void saveBahanBakuToFile(); // agar data bahan baku ga ilang walaupun program ditutup
+//void saveBahanBakuToFile(); // agar data bahan baku ga ilang walaupun program ditutup
 
 // CONSTRUKTOR ADMIN
 Admin::Admin(int id, string uname, string pwd, string idAdmin)
@@ -64,7 +64,7 @@ void Admin::manajemenStok(){
                 cout << " Bahan Baku berhasil ditambahkan!                      " << endl;
                 cout << "---------------------------------------------------------" << endl;
 
-                saveBahanBakuToFile(); // langsung simpan ke file
+                this->saveBahanBakuToFile(); // langsung simpan ke file
                 break;
             }
             case 2:{ // lihat stok bahan baku
@@ -119,7 +119,7 @@ void Admin::manajemenStok(){
                             }
                         }
                         cout << "---------------------------------------------------------" << endl;
-                        saveBahanBakuToFile(); // simpan perubahan
+                        this->saveBahanBakuToFile(); // simpan perubahan
                         break;
                     }
                 }
@@ -139,7 +139,7 @@ void Admin::manajemenStok(){
                     if(it->getnamaBahan() == nama){
                         daftarBahanBaku.erase(it);
                         cout << "Bahan Baku " << nama << " berhasil dihapus!" << endl;
-                        saveBahanBakuToFile(); // simpan ke file
+                        this->saveBahanBakuToFile(); // simpan ke file
                         found = true;
                         break;
                     }
@@ -165,7 +165,7 @@ void Admin::manajemenStok(){
     } while (choice != 0);
 }
 
-void saveBahanBakuToFile() {
+void Admin::saveBahanBakuToFile() {
     ofstream file("bahan_baku.txt");
     for (const BahanBaku &bahan : daftarBahanBaku) {
         file << bahan.getidBahan() << ","
