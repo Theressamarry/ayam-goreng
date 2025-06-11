@@ -165,7 +165,7 @@ void Admin::cariBahan() {
     }
 }
 
-// TAMPILKAN MENU ADMIN
+// TAMPILAN MENU ADMIN
 void Admin::manajemenStok() {
     int pilihan;
     do {

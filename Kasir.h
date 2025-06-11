@@ -22,8 +22,13 @@ public:
 
     // ==== METHODE KASIR ====
     void kelolaPenjualan();
+    void tampilkanMenuKasir();
+    void catatPenjualan();
     void lihatStok();
+    void cariProduk();
+    void laporanPenjualan();
     void savePenjualanToFile();
+    void loadPenjualanFromFile();
 
 };
 #endif

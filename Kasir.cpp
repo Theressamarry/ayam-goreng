@@ -21,175 +21,326 @@ void savePenjualanToFile(); // deklarasi fungsi untuk menyimpan penjualan ke fil
 Kasir::Kasir(int id, string uname, string pwd, string idKaryawan, Admin* admin)
     : User(id, uname, pwd, "Kasir"), idKaryawan(idKaryawan), admin(admin) {}
 
-// ==== FITUR: KELOLA PENJUALAN ====
-void Kasir::kelolaPenjualan(){
+// FUNGSI TAMPILKAN MENU KASIR
+void Kasir::tampilkanMenuKasir() {
+    cout << "\n+===================================+" << endl;
+    cout << "|           MENU KASIR             |" << endl;
+    cout << "+===================================+" << endl;
+    cout << "| 1. Catat Penjualan               |" << endl;
+    cout << "| 2. Lihat Semua Stok              |" << endl;
+    cout << "| 3. Cari Produk                   |" << endl;
+    cout << "| 4. Laporan Penjualan             |" << endl;
+    cout << "| 0. Keluar                        |" << endl;
+    cout << "+===================================+" << endl;
+    cout << " Pilih menu: ";
+}
+
+// FUNGSI CATAT PENJUALAN
+void Kasir::catatPenjualan() {
+    int id = generatePenjualanId();
+    string tgl;
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+    char buffer[17];
+    strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M", ltm);
+    tgl = buffer;
+
+    cout << "\n---------------------------------------------------------" << endl;
+    cout << "ID Penjualan: " << id << " | Tanggal: " << tgl << endl;
+    cout << "---------------------------------------------------------" << endl;
+
+    double totalHarga = 0;
+
+    while (true) {
+        string nama;
+        cout << "Nama Produk (ENTER untuk selesai): ";
+        getline(cin, nama);
+        if (nama.empty()) break;
+
+        bool found = false;
+        for (auto &bahan : daftarBahanBaku) {
+            if (bahan.getnamaBahan() == nama) {
+                if (bahan.getstok() == 0) {
+                    cout << "Stok habis.\n";
+                    continue;
+                }
+
+                int jumlah;
+                cout << "Stok: " << bahan.getstok() << ", Harga: Rp" << bahan.getharga() << "\nJumlah: ";
+                while (!(cin >> jumlah) || jumlah <= 0 || jumlah > bahan.getstok()) {
+                    cout << "Jumlah tidak valid. Coba lagi: ";
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                }
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+                double subTotal = jumlah * bahan.getharga();
+                bahan.kurangiStok(jumlah);
+                daftarPenjualan.push_back(ProdukTerjual(id, tgl, nama, jumlah, bahan.getharga()));
+                totalHarga += subTotal;
+                savePenjualanToFile();
+                admin->saveBahanBakuToFile();
+                found = true;
+                break;
+            }
+        }
+        if (!found) cout << "Produk tidak ditemukan.\n";
+    }
+
+    cout << "TOTAL BELANJA: Rp" << totalHarga << endl;
+}
+
+//FUNGSI LIHAT STOK
+void Kasir::lihatStok() {
+    cout << "\n+--------------------------------------------------------+" << endl;
+    cout << "| ID  | Nama Produk          | Stok  | Harga/unit        |" << endl;
+    cout << "+--------------------------------------------------------+" << endl;
+    if (daftarBahanBaku.empty()) {
+        cout << "Tidak ada stok tersedia.\n";
+    } else {
+        for (BahanBaku &b : daftarBahanBaku) {
+            b.displayInfo();
+        }
+    }
+    cout << "+--------------------------------------------------------+" << endl;
+}
+
+// FUNGSI CARI PRODUK
+void Kasir::cariProduk() {
+    string keyword;
+    cout << "Masukkan nama produk yang dicari: ";
+    cin >> keyword;
+
+    bool found = false;
+    for (BahanBaku &b : daftarBahanBaku) {
+        if (b.getnamaBahan().find(keyword) != string::npos) {
+            b.displayInfo();
+            found = true;
+        }
+    }
+
+    if (!found) cout << "Produk tidak ditemukan." << endl;
+}
+
+// FUNGSI LAPORAN PENJUALAN
+void Kasir::laporanPenjualan() {
+    cout << "\n---------------------------------------------------------" << endl;
+    cout << "                LAPORAN PENJUALAN                   " << endl;
+    cout << "---------------------------------------------------------" << endl;
+    if (daftarPenjualan.empty()) {
+        cout << "Belum ada data penjualan." << endl;
+        return;
+    }
+
+    cout << "| ID    | Tanggal           | Produk          | Jml | Total    |" << endl;
+    cout << "---------------------------------------------------------" << endl;
+
+    for (auto &p : daftarPenjualan) {
+        p.displayInfo();
+    }
+
+    double total = 0;
+    for (auto &p : daftarPenjualan) {
+        total += p.getjumlah() * p.getharga();
+    }
+
+    cout << "---------------------------------------------------------" << endl;
+    cout << " TOTAL PENDAPATAN: Rp" << total << endl;
+}
+
+// TAMPILAN MENU KASIR
+void Kasir::kelolaPenjualan() {
     int choice;
-    do{
-        cout << "\n+===================================+" << endl;
-        cout << "|           MENU KASIR             |" << endl;
-        cout << "+===================================+" << endl;
-        cout << "| 1. Catat Penjualan               |" << endl;
-        cout << "| 2. Lihat Semua Stok              |" << endl;
-        cout << "| 3. Cari Produk                   |" << endl;
-        cout << "| 4. Laporan Penjualan             |" << endl;
-        cout << "| 0. Keluar                        |" << endl;
-        cout << "+===================================+" << endl;
-        cout << " Pilih menu: ";
+    do {
+        tampilkanMenuKasir();
         cin >> choice;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        switch(choice){
-            case 1: { // catat penjualan
-                int id, jumlah;
-                string tgl, nama;
-                double harga;
-
-                cout << "\n---------------------------------------------------------" << endl;
-                cout << "                CATAT PENJUALAN                     " << endl;
-                cout << "---------------------------------------------------------" << endl;
-
-                // generate id auto
-                id = generatePenjualanId();
-                cout << "ID Penjualan: " << id << endl;
-
-                // ambil tanggal today
-                time_t now = time(0);
-                tm *ltm = localtime(&now);
-                char buffer[17]; // untuk format DD-MM-YYYY
-                strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M", ltm);
-                tgl = buffer; // set tanggal ke hari ini
-
-                cout << "Tanggal: " << tgl << endl;
-                cout << "---------------------------------------------------------" << endl;
-
-                double totalHarga =0;
-                while(true){
-                    string nama;
-
-                    // nama produk
-                    cout << "Nama Produk: "; // tpi klo enter, bakalan keluar dari loop
-                    getline(cin, nama); // clear buffer
-
-                    if (nama.empty()) break; // keluar jika user enter
-
-                    bool found = false;
-                    for (auto &bahan:daftarBahanBaku){
-                        if (bahan.getnamaBahan()==nama){
-                            if (bahan.getstok() == 0) {
-                                cout << "---------------------------------------------------------" << endl;
-                                cout << " Stok produk " << nama << " habis. Silakan pilih produk lain." << endl;
-                                cout << "---------------------------------------------------------" << endl;
-                                continue; // keluar dari loop
-                            }
-                            cout << " Stok tersedia: " << bahan.getstok() << endl;
-                            cout << " Harga satuan : Rp" << bahan.getharga() << endl;
-                            cout << "---------------------------------------------------------" << endl;
-                            cout << " Jumlah       : ";
-                            
-                            while (!(cin >> jumlah) || jumlah <= 0 || jumlah > bahan.getstok()) {
-                                cout << "---------------------------------------------------------" << endl;
-                                cout << " Jumlah tidak valid. Silakan coba lagi: ";
-                                cin.clear();
-                                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                            }
-                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-                            double subTotal = jumlah * bahan.getharga();
-                            cout << "---------------------------------------------------------" << endl;
-                            cout << " Subtotal     : Rp" << jumlah << " x Rp" << bahan.getharga() 
-                                << " = Rp" << subTotal << endl;
-                            cout << "---------------------------------------------------------" << endl;
-
-                            bahan.kurangiStok(jumlah);
-                            daftarPenjualan.push_back(ProdukTerjual(id, tgl, nama, jumlah, bahan.getharga()));
-                            totalHarga += subTotal; // tambahkan ke total harga
-                            
-                            this->savePenjualanToFile();
-                            admin->saveBahanBakuToFile();
-                            found = true; // set flag true jika produk ditemukan
-                            break;
-                        }
-                    } if(!found){
-                        cout << "Produk tidak ditemukan. Silakan coba lagi." << endl;
-                    }
-                }
-                cout << " TOTAL BELANJA: Rp" << totalHarga << endl;
-                cout << "---------------------------------------------------------" << endl;
-                cout << " Penjualan berhasil dicatat!" << endl;
-                cout << "---------------------------------------------------------" << endl;
-
-                this->savePenjualanToFile(); // simpan ke file
-                admin->saveBahanBakuToFile(); // simpan stok ke file
-                break;
-            }
-            case 2: { // lihat semua stok
-                cout << "\n+--------------------------------------------------------+" << endl;
-                cout << "| ID  | Nama Produk          | Stok  | Harga/unit        |" << endl;
-                cout << "+--------------------------------------------------------+" << endl;
-                if (daftarBahanBaku.empty()){
-                    cout << "Tidak ada stok tersedia"<< endl;
-                } else{
-                    for (BahanBaku &b: daftarBahanBaku) {
-                        b.displayInfo();
-                    }
-                }
-                cout << "+--------------------------------------------------------+" << endl;
-                break;
-            }
-            case 3:{ // cari produk
-                string keyword;
-                cout << "Masukkan nama produk yang dicari: ";
-                cin >> keyword;
-
-                bool found = false;
-                for(BahanBaku&b: daftarBahanBaku) {
-                    if (b.getnamaBahan().find(keyword) != string::npos) {
-                        b.displayInfo();
-                        found = true;
-                    }
-                }
-                if (!found){
-                    cout << "Produk tidak ditemukan." << endl;
-                }
-                break;
-            }
-            case 4:{ // laporan penjualan
-                cout << "\n---------------------------------------------------------" << endl;
-                cout << "                LAPORAN PENJUALAN                   " << endl;
-                cout << "---------------------------------------------------------" << endl;
-                if (daftarPenjualan.empty()) {
-                    cout << "Belum ada data penjualan." << endl;
-                    return;
-                }
-
-                cout << "| ID    | Tanggal           | Produk          | Jml | Total    |" << endl;
-                cout << "---------------------------------------------------------" << endl;
-                
-                // Tampilkan semua penjualan
-                for (auto& penjualan : daftarPenjualan) {
-                    penjualan.displayInfo();
-                }
-                
-                // Hitung total pendapatan
-                double total = 0;
-                for (auto& penjualan : daftarPenjualan) {
-                    total += penjualan.getharga() * penjualan.getjumlah();
-                }
-                cout << "---------------------------------------------------------" << endl;
-                cout << " TOTAL PENDAPATAN: Rp" << total << endl;
-                cout << "---------------------------------------------------------" << endl;
-                break;
-            }
-            case 0:{ // keluar dari menu kasir
-                savePenjualanToFile(); // simpan penjualan sebelum keluar
-                admin->saveBahanBakuToFile(); // simpan stok sebelum keluar
+        switch (choice) {
+            case 1: catatPenjualan(); break;
+            case 2: lihatStok(); break;
+            case 3: cariProduk(); break;
+            case 4: laporanPenjualan(); break;
+            case 0:
+                savePenjualanToFile();
+                admin->saveBahanBakuToFile();
                 cout << "Keluar dari menu kasir." << endl;
                 break;
-            } 
+            default:
+                cout << "Pilihan tidak valid." << endl;
         }
-    }   while(choice != 0);
-    
+    } while (choice != 0);
 }
+
+// // ==== FITUR: KELOLA PENJUALAN ====
+// void Kasir::kelolaPenjualan(){
+//     int choice;
+//     do{
+//         cout << "\n+===================================+" << endl;
+//         cout << "|           MENU KASIR             |" << endl;
+//         cout << "+===================================+" << endl;
+//         cout << "| 1. Catat Penjualan               |" << endl;
+//         cout << "| 2. Lihat Semua Stok              |" << endl;
+//         cout << "| 3. Cari Produk                   |" << endl;
+//         cout << "| 4. Laporan Penjualan             |" << endl;
+//         cout << "| 0. Keluar                        |" << endl;
+//         cout << "+===================================+" << endl;
+//         cout << " Pilih menu: ";
+//         cin >> choice;
+//         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear input buffer
+
+//         switch(choice){
+//             case 1: { // catat penjualan
+//                 int id, jumlah;
+//                 string tgl, nama;
+//                 double harga;
+
+//                 cout << "\n---------------------------------------------------------" << endl;
+//                 cout << "                CATAT PENJUALAN                     " << endl;
+//                 cout << "---------------------------------------------------------" << endl;
+
+//                 // generate id auto
+//                 id = generatePenjualanId();
+//                 cout << "ID Penjualan: " << id << endl;
+
+//                 // ambil tanggal today
+//                 time_t now = time(0);
+//                 tm *ltm = localtime(&now);
+//                 char buffer[17]; // untuk format DD-MM-YYYY
+//                 strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M", ltm);
+//                 tgl = buffer; // set tanggal ke hari ini
+
+//                 cout << "Tanggal: " << tgl << endl;
+//                 cout << "---------------------------------------------------------" << endl;
+
+//                 double totalHarga =0;
+//                 while(true){
+//                     string nama;
+
+//                     // nama produk
+//                     cout << "Nama Produk: "; // tpi klo enter, bakalan keluar dari loop
+//                     getline(cin, nama); // clear buffer
+
+//                     if (nama.empty()) break; // keluar jika user enter
+
+//                     bool found = false;
+//                     for (auto &bahan:daftarBahanBaku){
+//                         if (bahan.getnamaBahan()==nama){
+//                             if (bahan.getstok() == 0) {
+//                                 cout << "---------------------------------------------------------" << endl;
+//                                 cout << " Stok produk " << nama << " habis. Silakan pilih produk lain." << endl;
+//                                 cout << "---------------------------------------------------------" << endl;
+//                                 continue; // keluar dari loop
+//                             }
+//                             cout << " Stok tersedia: " << bahan.getstok() << endl;
+//                             cout << " Harga satuan : Rp" << bahan.getharga() << endl;
+//                             cout << "---------------------------------------------------------" << endl;
+//                             cout << " Jumlah       : ";
+                            
+//                             while (!(cin >> jumlah) || jumlah <= 0 || jumlah > bahan.getstok()) {
+//                                 cout << "---------------------------------------------------------" << endl;
+//                                 cout << " Jumlah tidak valid. Silakan coba lagi: ";
+//                                 cin.clear();
+//                                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
+//                             }
+//                             cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+//                             double subTotal = jumlah * bahan.getharga();
+//                             cout << "---------------------------------------------------------" << endl;
+//                             cout << " Subtotal     : Rp" << jumlah << " x Rp" << bahan.getharga() 
+//                                 << " = Rp" << subTotal << endl;
+//                             cout << "---------------------------------------------------------" << endl;
+
+//                             bahan.kurangiStok(jumlah);
+//                             daftarPenjualan.push_back(ProdukTerjual(id, tgl, nama, jumlah, bahan.getharga()));
+//                             totalHarga += subTotal; // tambahkan ke total harga
+                            
+//                             this->savePenjualanToFile();
+//                             admin->saveBahanBakuToFile();
+//                             found = true; // set flag true jika produk ditemukan
+//                             break;
+//                         }
+//                     } if(!found){
+//                         cout << "Produk tidak ditemukan. Silakan coba lagi." << endl;
+//                     }
+//                 }
+//                 cout << " TOTAL BELANJA: Rp" << totalHarga << endl;
+//                 cout << "---------------------------------------------------------" << endl;
+//                 cout << " Penjualan berhasil dicatat!" << endl;
+//                 cout << "---------------------------------------------------------" << endl;
+
+//                 this->savePenjualanToFile(); // simpan ke file
+//                 admin->saveBahanBakuToFile(); // simpan stok ke file
+//                 break;
+//             }
+//             case 2: { // lihat semua stok
+//                 cout << "\n+--------------------------------------------------------+" << endl;
+//                 cout << "| ID  | Nama Produk          | Stok  | Harga/unit        |" << endl;
+//                 cout << "+--------------------------------------------------------+" << endl;
+//                 if (daftarBahanBaku.empty()){
+//                     cout << "Tidak ada stok tersedia"<< endl;
+//                 } else{
+//                     for (BahanBaku &b: daftarBahanBaku) {
+//                         b.displayInfo();
+//                     }
+//                 }
+//                 cout << "+--------------------------------------------------------+" << endl;
+//                 break;
+//             }
+//             case 3:{ // cari produk
+//                 string keyword;
+//                 cout << "Masukkan nama produk yang dicari: ";
+//                 cin >> keyword;
+
+//                 bool found = false;
+//                 for(BahanBaku&b: daftarBahanBaku) {
+//                     if (b.getnamaBahan().find(keyword) != string::npos) {
+//                         b.displayInfo();
+//                         found = true;
+//                     }
+//                 }
+//                 if (!found){
+//                     cout << "Produk tidak ditemukan." << endl;
+//                 }
+//                 break;
+//             }
+//             case 4:{ // laporan penjualan
+//                 cout << "\n---------------------------------------------------------" << endl;
+//                 cout << "                LAPORAN PENJUALAN                   " << endl;
+//                 cout << "---------------------------------------------------------" << endl;
+//                 if (daftarPenjualan.empty()) {
+//                     cout << "Belum ada data penjualan." << endl;
+//                     return;
+//                 }
+
+//                 cout << "| ID    | Tanggal           | Produk          | Jml | Total    |" << endl;
+//                 cout << "---------------------------------------------------------" << endl;
+                
+//                 // Tampilkan semua penjualan
+//                 for (auto& penjualan : daftarPenjualan) {
+//                     penjualan.displayInfo();
+//                 }
+                
+//                 // Hitung total pendapatan
+//                 double total = 0;
+//                 for (auto& penjualan : daftarPenjualan) {
+//                     total += penjualan.getharga() * penjualan.getjumlah();
+//                 }
+//                 cout << "---------------------------------------------------------" << endl;
+//                 cout << " TOTAL PENDAPATAN: Rp" << total << endl;
+//                 cout << "---------------------------------------------------------" << endl;
+//                 break;
+//             }
+//             case 0:{ // keluar dari menu kasir
+//                 savePenjualanToFile(); // simpan penjualan sebelum keluar
+//                 admin->saveBahanBakuToFile(); // simpan stok sebelum keluar
+//                 cout << "Keluar dari menu kasir." << endl;
+//                 break;
+//             } 
+//         }
+//     }   while(choice != 0);
+    
+// }
 
 // ==== FUNGSI UNTUK SIMPAN KE FILE ====
 void Kasir::savePenjualanToFile() {
