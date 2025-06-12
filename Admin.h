@@ -23,7 +23,7 @@ public:
 
     // ==== METHODE ADMIN ====
     void manajemenStok();
-    void tampilkanMenuStok();
+    void tampilkanMenuAdmin();
     void tambahProduk();
     void lihatStok();
     void updateStok();

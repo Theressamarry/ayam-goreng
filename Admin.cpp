@@ -21,7 +21,7 @@ Admin::Admin(int id, string uname, string pwd, string idAdmin)
     : User(id, uname, pwd, "Admin"), idAdmin(idAdmin) {}
 
 // FUNGSI TAMPILKAN MENU ADMIN
-void Admin::tampilkanMenuStok()
+void Admin::tampilkanMenuAdmin()
 {
     cout << "\n+===================================+" << endl;
     cout << "|           MENU ADMIN             |" << endl;
@@ -259,7 +259,7 @@ void Admin::manajemenStok()
     int choice;
     do
     {
-        tampilkanMenuStok();
+        tampilkanMenuAdmin();
         cout << "Masukkan Pilihan: ";
         cin >> choice;
         cin.ignore(); // biar aman dari sisa input
