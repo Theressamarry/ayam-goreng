@@ -177,7 +177,7 @@ void Admin::cariProduk()
 {
     string keyword;
     cout << "Cari Produk: ";
-    cin >> keyword;
+    getline(cin, keyword);
     bool found = false;
     for (Produk &produk : daftarProduk)
     {
