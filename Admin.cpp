@@ -14,7 +14,6 @@
 using namespace std;
 
 // ==== DEKLARASI FUNGSI UNTUK SAVE DATA KE FILE ====
-// void saveProdukToFile(); // agar data produk ga ilang walaupun program ditutup
 
 // CONSTRUKTOR ADMIN
 Admin::Admin(int id, string uname, string pwd, string idAdmin)
