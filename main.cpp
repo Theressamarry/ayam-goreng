@@ -104,31 +104,35 @@ int main()
             if (logInUser != nullptr)
             {
                 cout << "\nLogin berhasil!" << endl;
+                bool stayInRoleMenu = true;
 
-                if (logInUser->getRole() == "Admin")
+                while (stayInRoleMenu)
                 {
-                    Admin *admin = dynamic_cast<Admin *>(logInUser);
-                    admin->manajemenStok();
-                }
-                else if (logInUser->getRole() == "Kasir")
-                {
-                    Kasir *kasir = dynamic_cast<Kasir *>(logInUser);
-                    kasir->kelolaPenjualan();
-                }
-                else if (logInUser->getRole() == "Pelanggan")
-                {
-                    Pelanggan *pelanggan = dynamic_cast<Pelanggan *>(logInUser);
-                    pelanggan->displayInfo();
-                    pelanggan->lihatMenu();
-                }
+                    if (logInUser->getRole() == "Admin")
+                    {
+                        Admin *admin = dynamic_cast<Admin *>(logInUser);
+                        admin->manajemenStok();
+                    }
+                    else if (logInUser->getRole() == "Kasir")
+                    {
+                        Kasir *kasir = dynamic_cast<Kasir *>(logInUser);
+                        kasir->kelolaPenjualan();
+                    }
+                    else if (logInUser->getRole() == "Pelanggan")
+                    {
+                        Pelanggan *pelanggan = dynamic_cast<Pelanggan *>(logInUser);
+                        pelanggan->displayInfo();
+                        pelanggan->lihatMenu();
+                    }
 
-                string input;
-                cout << "\nKembali ke menu utama? (y/n): ";
-                getline(cin, input);
+                    string input;
+                    cout << "\nTetap di menu ini? (y/n): ";
+                    getline(cin, input);
 
-                if (!input.empty() && tolower(input[0]) == 'n')
-                {
-                    running = false;
+                    if (!input.empty() && tolower(input[0]) == 'n')
+                    {
+                        stayInRoleMenu = false;
+                    }
                 }
             }
             else
