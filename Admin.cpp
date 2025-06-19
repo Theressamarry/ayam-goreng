@@ -105,7 +105,6 @@ void Admin::updateStok()
     if (jumlah == 0)
     {
         cout << " Error: Jumlah tidak boleh 0." << endl;
-        cout << "---------------------------------------------------------" << endl;
         return; // langsung keluar dari fungsi
     }
 
@@ -154,11 +153,11 @@ void Admin::hapusProduk()
     cin >> nama;
 
     bool found = false;
-    for (auto it = daftarProduk.begin(); it != daftarProduk.end(); ++it)
+    for (auto produk = daftarProduk.begin(); produk != daftarProduk.end(); ++produk)
     {
-        if (it->getnamaProduk() == nama)
+        if (produk->getnamaProduk() == nama)
         {
-            daftarProduk.erase(it);
+            daftarProduk.erase(produk);
             cout << "Produk " << nama << " berhasil dihapus!" << endl;
             this->saveProdukToFile(); // simpan ke file
             found = true;

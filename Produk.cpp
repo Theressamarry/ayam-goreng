@@ -24,10 +24,10 @@ void Produk::tambahStok(int jumlah){
 
 // ==== KURANGI STOK PRODUK ====
 void Produk::kurangiStok(int jumlah){
-    if(jumlah<=0) {
-        cout << "ERROR: Jumlah harus lebih besar dari 0." << endl;
-        return;
-    }
+    // if(jumlah<=0) {
+    //     cout << "ERROR: Jumlah harus lebih besar dari 0." << endl;
+    //     return;
+    // }
     if(jumlah > stok) {
         cout << "ERROR: Stok tidak cukup untuk mengurangi " << jumlah << endl;
         return;

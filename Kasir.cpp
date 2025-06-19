@@ -124,6 +124,7 @@ void Kasir::cariProduk() {
 
 // FUNGSI LAPORAN PENJUALAN
 void Kasir::laporanPenjualan() {
+    loadPenjualanFromFile(); // readfile penjualan.txt
     cout << "\n---------------------------------------------------------" << endl;
     cout << "                LAPORAN PENJUALAN                   " << endl;
     cout << "---------------------------------------------------------" << endl;
@@ -184,4 +185,31 @@ void Kasir::savePenjualanToFile() {
     }
     file.close();
     daftarPenjualan.clear(); // clear setelah disimpan agar tidak dobel saat append lagi
+}
+
+// === FUNGSI UNTUK LOAD PENJUALAN DARI FILE ===
+void Kasir::loadPenjualanFromFile() {
+    daftarPenjualan.clear();
+    ifstream file("penjualan.txt");
+    if (!file.is_open()) return;
+
+    int id, jumlah, harga;
+    string tanggal, namaProduk, line;
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string token;
+        getline(ss, token, ',');
+        id = stoi(token);
+        getline(ss, tanggal, ',');
+        getline(ss, namaProduk, ',');
+        getline(ss, token, ',');
+        jumlah = stoi(token);
+        getline(ss, token, ',');
+        harga = stoi(token);
+
+        daftarPenjualan.push_back(ProdukTerjual(id, tanggal, namaProduk, jumlah, harga));
+    }
+
+    file.close();
 }
