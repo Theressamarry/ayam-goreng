@@ -14,24 +14,37 @@ Pelanggan::Pelanggan(int id, string uname, string pwd, string nama)
 // ==== DISPLAY INFO PELANGGAN ====
 void Pelanggan::displayInfo()
 {
-    cout << "\n=== INFO PELANGGAN ===" << endl;
-    cout << "Username: " << username << endl;
-    cout << "Nama Lengkap: " << namaLengkap << endl;
+    cout << "\n===================================" << endl;
+    cout << "         INFO PELANGGAN            " << endl;
+    cout << "===================================" << endl;
+    cout << left << setw(15) << "Username"     << ": " << username     << endl;
+    cout << left << setw(15) << "Nama Lengkap" << ": " << namaLengkap << endl;
+    cout << "-----------------------------------" << endl;
 }
+
 
 // ==== LIHAT MENU PRODUK ====
 void Pelanggan::lihatMenu()
 {
-    cout << "\n=== DAFTAR MENU ===" << endl;
-    cout << left << setw(5) << "Nama Produk"
-         << right << setw(12) << "Harga" << endl;
-    cout << "---------------------------" << endl;
+    cout << "\n---------------------------------------------------------" << endl;
+    cout << "| " << setw(3) << left << "ID"
+         << " | " << setw(20) << left << "Nama Produk"
+         << " | " << setw(5) << right << "Stok"
+         << " | " << setw(17) << right << "Harga/unit"
+         << " |" << endl;
+    cout << "---------------------------------------------------------" << endl;
 
+    int id = 1;
     for (const Produk &produk : daftarProduk)
     {
-        cout << left << setw(5) << produk.getnamaProduk()
-             << right << setw(15) << "Rp" << produk.getharga() << endl;
+        cout << "| " << setw(3) << left << id++
+             << " | " << setw(20) << left << produk.getnamaProduk()
+             << " | " << setw(5) << right << produk.getstok()
+             << " | " << "Rp" << setw(10) << right << produk.getharga()
+             << " |" << endl;
     }
+
+    cout << "+--------------------------------------------------------+" << endl;
 }
 
 // ==== GETTER NAMA LENGKAP PELANGGAN ====
