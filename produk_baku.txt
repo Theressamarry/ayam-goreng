@@ -2,3 +2,5 @@
 3,Paha Bawah,18,17000
 4,Nasi Putih,50,6000
 5,Air Botol,40,5000
+7,Paha Bawah,15,8000
+8,Paha Bawah,5,8000

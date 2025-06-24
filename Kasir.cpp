@@ -112,9 +112,9 @@ void Kasir::cariProduk() {
     cin >> keyword;
 
     bool found = false;
-    for (Produk &b : daftarProduk) {
-        if (b.getnamaProduk().find(keyword) != string::npos) {
-            b.displayInfo();
+    for (Produk &produk : daftarProduk) {
+        if (produk.getnamaProduk().find(keyword) != string::npos) {
+            produk.displayInfo();
             found = true;
         }
     }
@@ -158,10 +158,14 @@ void Kasir::kelolaPenjualan() {
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         switch (choice) {
-            case 1: catatPenjualan(); break;
-            case 2: lihatStok(); break;
-            case 3: cariProduk(); break;
-            case 4: laporanPenjualan(); break;
+            case 1: catatPenjualan(); 
+            break;
+            case 2: lihatStok(); 
+            break;
+            case 3: cariProduk(); 
+            break;
+            case 4: laporanPenjualan(); 
+            break;
             case 0:
                 savePenjualanToFile();
                 admin->saveProdukToFile();
